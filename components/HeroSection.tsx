@@ -51,7 +51,9 @@ function Navbar() {
         <button
           className="md:hidden text-white p-2"
           onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
         >
           <div className="flex flex-col gap-1.5">
             <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
@@ -66,6 +68,7 @@ function Navbar() {
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
+          id="mobile-menu"
           className="md:hidden bg-[#0C0C0C]/95 backdrop-blur-xl border-t border-white/5 px-5 pb-6"
         >
           {navLinks.map((link) => (
