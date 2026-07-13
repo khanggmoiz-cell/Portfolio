@@ -1,0 +1,97 @@
+'use client'
+
+import FadeIn from './FadeIn'
+import AnimatedText from './AnimatedText'
+import ContactButton from './ContactButton'
+
+export default function AboutSection() {
+  return (
+    <section
+      id="about"
+      className="relative min-h-screen flex flex-col items-center justify-center px-5 sm:px-8 md:px-10 py-16 sm:py-20 bg-[#0C0C0C]"
+    >
+      <FadeIn
+        delay={0.1}
+        x={-80}
+        y={0}
+        duration={0.9}
+        className="hidden md:block absolute top-[4%] left-[4%] w-[160px] lg:w-[210px]"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/moon_icon.11395d36.png"
+          alt="Moon icon"
+          width={210}
+          height={210}
+          className="w-full h-auto"
+        />
+      </FadeIn>
+      <FadeIn
+        delay={0.25}
+        x={-80}
+        y={0}
+        duration={0.9}
+        className="hidden md:block absolute bottom-[8%] left-[10%] w-[140px] lg:w-[180px]"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/p59_1.4659672e.png"
+          alt="3D object"
+          width={180}
+          height={180}
+          className="w-full h-auto"
+        />
+      </FadeIn>
+      <FadeIn
+        delay={0.15}
+        x={80}
+        y={0}
+        duration={0.9}
+        className="hidden md:block absolute top-[4%] right-[4%] w-[160px] lg:w-[210px]"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/lego_icon-1.703bb594.png"
+          alt="Lego icon"
+          width={210}
+          height={210}
+          className="w-full h-auto"
+        />
+      </FadeIn>
+      <FadeIn
+        delay={0.3}
+        x={80}
+        y={0}
+        duration={0.9}
+        className="hidden md:block absolute bottom-[8%] right-[10%] w-[170px] lg:w-[220px]"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/Group_134-1.2e04f3ce.png"
+          alt="3D group"
+          width={220}
+          height={220}
+          className="w-full h-auto"
+        />
+      </FadeIn>
+
+      <div className="flex flex-col items-center gap-8 sm:gap-10 md:gap-16 z-10 w-full">
+        <FadeIn delay={0} y={40}>
+          <h2 className="hero-heading font-black uppercase leading-none tracking-tight text-center text-[12vw] sm:text-[10vw] md:text-[8vw] lg:text-[6rem]">
+            About me
+          </h2>
+        </FadeIn>
+
+        <div className="flex flex-col items-center gap-10 sm:gap-12 md:gap-24">
+          <AnimatedText
+            text="I am Abdul Moiz, a multi-talented Web Designer, Developer, and Digital Growth Strategist. I specialize in turning high-energy 'vibe coding' into stunning, high-converting digital experiences. From corporate business websites and personal portfolios to e-commerce stores and high-impact landing pages, I build everything from scratch with a unique, data-driven approach. My innovation lies in utilizing advanced, automated workflows—leveraging Google Sheets for robust backend data management to ensure lightweight, fast, and scalable architectures. But I don't just stop at building websites. I provide full-stack digital transformation for local businesses like restaurants, mechanics, and entrepreneurs. I create and manage social media profiles (Facebook, Instagram, TikTok), run high-ROI Meta Ad campaigns, and optimize Google My Business (GMB) profiles to ensure my clients dominate local search results. I bring businesses online and make sure they get noticed, booked, and paid."
+            className="text-[#D7E2EA] font-medium text-center leading-relaxed max-w-[90vw] sm:max-w-[600px] md:max-w-[700px] text-sm sm:text-base md:text-lg"
+          />
+          <FadeIn delay={0.3}>
+            <ContactButton />
+          </FadeIn>
+        </div>
+      </div>
+    </section>
+  )
+}
