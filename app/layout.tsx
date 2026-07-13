@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Kanit, Playfair_Display } from 'next/font/google'
 import './globals.css'
 
@@ -15,6 +15,12 @@ const playfair = Playfair_Display({
   display: 'swap',
   variable: '--font-playfair',
 })
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://abdulmoiz.com'),
@@ -59,6 +65,12 @@ export const metadata: Metadata = {
       'Web Designer, Developer & Digital Growth Strategist. I build high-converting websites, e-commerce stores, and run Meta Ad campaigns for local businesses.',
   },
   icons: { icon: '/favicon.svg' },
+  alternates: {
+    canonical: 'https://abdulmoiz.com',
+    languages: {
+      'en': 'https://abdulmoiz.com',
+    },
+  },
 }
 
 export default function RootLayout({
@@ -105,15 +117,16 @@ export default function RootLayout({
       <body
         className={`${kanit.className} antialiased`}
         style={{ background: '#0C0C0C' }}
-        suppressHydrationWarning
       >
         <a
-          href="#hero"
+          href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:outline-none"
         >
-          Skip to content
+          Skip to main content
         </a>
-        {children}
+        <main id="main-content">
+          {children}
+        </main>
       </body>
     </html>
   )

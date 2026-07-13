@@ -199,7 +199,7 @@ export default function ContactSection() {
                 </span>{' '}
                 together.
               </h3>
-              <p className="text-[#D7E2EA]/70 mt-4 text-sm sm:text-base leading-relaxed max-w-md">
+              <p className="text-[#D7E2EA]/80 mt-4 text-sm sm:text-base leading-relaxed max-w-md">
                 Have a project in mind or need a full digital transformation
                 for your business? I&apos;d love to hear from you. Let&apos;s
                 discuss how we can bring your vision to life.
@@ -287,6 +287,7 @@ export default function ContactSection() {
                     value={formData.name}
                     onChange={(e) => handleChange('name', e.target.value)}
                     className={inputClass}
+                    autoComplete="name"
                     aria-required="true"
                     aria-invalid={!!errors.name}
                   />
@@ -307,6 +308,7 @@ export default function ContactSection() {
                     value={formData.email}
                     onChange={(e) => handleChange('email', e.target.value)}
                     className={inputClass}
+                    autoComplete="email"
                     aria-required="true"
                     aria-invalid={!!errors.email}
                   />
@@ -330,6 +332,7 @@ export default function ContactSection() {
                     value={formData.phone}
                     onChange={(e) => handleChange('phone', e.target.value)}
                     className={inputClass}
+                    autoComplete="tel"
                     aria-required="true"
                     aria-invalid={!!errors.phone}
                   />
@@ -352,6 +355,7 @@ export default function ContactSection() {
                       handleChange('company', e.target.value)
                     }
                     className={inputClass}
+                    autoComplete="organization"
                   />
                 </div>
               </div>

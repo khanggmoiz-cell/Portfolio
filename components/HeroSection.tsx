@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
+import Image from 'next/image'
 import ContactButton from './ContactButton'
 import Magnet from './Magnet'
 
@@ -22,6 +23,7 @@ function Navbar() {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, delay: 0, ease: [0.25, 0.1, 0.25, 1] }}
+      aria-label="Main navigation"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
           ? 'bg-[#0C0C0C]/70 backdrop-blur-xl border-b border-white/5 shadow-lg shadow-black/20'
@@ -29,21 +31,22 @@ function Navbar() {
       }`}
     >
       <div className="flex justify-between items-center px-5 md:px-10 py-3 md:py-5 max-w-7xl mx-auto">
-        <a href="#" className="flex items-center gap-2 group">
+        <a href="#hero" aria-label="Abdul Moiz - Home" className="flex items-center gap-2 group">
           <span className="text-white font-black text-xl md:text-2xl lg:text-3xl tracking-tight bg-gradient-to-r from-white to-white group-hover:from-[#B600A8] group-hover:to-[#BE4C00] bg-clip-text group-hover:text-transparent transition-all duration-500" style={{ fontFamily: 'var(--font-playfair)' }}>
             Sasta Developer
           </span>
         </a>
 
-        <div className="hidden md:flex items-center gap-8 lg:gap-10">
+        <div className="hidden md:flex items-center gap-8 lg:gap-10" role="list">
           {navLinks.map((link) => (
             <a
               key={link}
               href={`#${link.toLowerCase()}`}
-              className="text-[#D7E2EA]/70 hover:text-white font-medium uppercase tracking-wider text-xs md:text-sm transition-colors duration-300 relative group cursor-pointer"
+              role="listitem"
+              className="text-[#D7E2EA]/80 hover:text-white font-medium uppercase tracking-wider text-xs md:text-sm transition-colors duration-300 relative group cursor-pointer"
             >
               {link}
-              <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-gradient-to-r from-[#B600A8] to-[#BE4C00] transition-all duration-300 group-hover:w-full" />
+              <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-gradient-to-r from-[#B600A8] to-[#BE4C00] transition-all duration-300 group-hover:w-full" aria-hidden="true" />
             </a>
           ))}
         </div>
@@ -69,14 +72,16 @@ function Navbar() {
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
           id="mobile-menu"
+          role="list"
           className="md:hidden bg-[#0C0C0C]/95 backdrop-blur-xl border-t border-white/5 px-5 pb-6"
         >
           {navLinks.map((link) => (
             <a
               key={link}
               href={`#${link.toLowerCase()}`}
+              role="listitem"
               onClick={() => setMenuOpen(false)}
-              className="block py-3 text-[#D7E2EA]/70 hover:text-white font-medium uppercase tracking-wider text-sm transition-colors border-b border-white/5 last:border-0 cursor-pointer"
+              className="block py-3 text-[#D7E2EA]/80 hover:text-white font-medium uppercase tracking-wider text-sm transition-colors border-b border-white/5 last:border-0 cursor-pointer"
             >
               {link}
             </a>
@@ -225,7 +230,7 @@ export default function HeroSection() {
                 delay: 0.5,
                 ease: [0.25, 0.1, 0.25, 1],
               }}
-              className="text-[#D7E2EA]/70 font-light leading-relaxed max-w-sm md:max-w-md text-xs sm:text-sm md:text-base"
+              className="text-[#D7E2EA]/80 font-light leading-relaxed max-w-sm md:max-w-md text-xs sm:text-sm md:text-base"
             >
               I craft high-converting digital experiences for local businesses
               — from stunning websites and e-commerce stores to full-stack
@@ -267,15 +272,21 @@ export default function HeroSection() {
             <div className="absolute w-[50%] h-[50%] rounded-full bg-[#B600A8]/20 blur-[40px] sm:blur-[60px]" />
             <div className="absolute w-[40%] h-[40%] rounded-full bg-[#BE4C00]/15 blur-[30px] sm:blur-[50px]" />
             <Magnet padding={150} strength={3}>
-              <motion.img
-                src="https://shrug-person-78902957.figma.site/_components/v2/d24c01ad3a56fc65e942a1f501eb73db42d7cf9a/Rectangle_40443.81459862.png"
-                alt="Abdul Moiz - 3D Character"
-                width={450}
-                height={500}
-                className="relative z-10 w-[50%] sm:w-[55%] md:w-[45%] lg:w-[85%] xl:w-[90%] max-w-[400px] h-auto object-contain"
+              <motion.div
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              />
+                className="relative z-10 w-[50%] sm:w-[55%] md:w-[45%] lg:w-[85%] xl:w-[90%] max-w-[400px]"
+              >
+                <Image
+                  src="https://shrug-person-78902957.figma.site/_components/v2/d24c01ad3a56fc65e942a1f501eb73db42d7cf9a/Rectangle_40443.81459862.png"
+                  alt="Abdul Moiz - 3D Character illustration"
+                  width={450}
+                  height={500}
+                  priority
+                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 55vw, (max-width: 1024px) 45vw, 85vw"
+                  className="w-full h-auto object-contain"
+                />
+              </motion.div>
             </Magnet>
           </motion.div>
         </div>

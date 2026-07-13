@@ -1,11 +1,23 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
+import Image from 'next/image'
 import LiveProjectButton from './LiveProjectButton'
 
-const projects = [
+interface Project {
+  id: string
+  num: string
+  name: string
+  category: string
+  col1img1: string
+  col1img2: string
+  col2img: string
+}
+
+const fallbackProjects: Project[] = [
   {
+    id: '1',
     num: '01',
     name: 'Nextlevel Studio',
     category: 'Client',
@@ -17,6 +29,7 @@ const projects = [
       'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055451_e317bf2d-28d4-48cc-86b0-6f72f25b6327.png&w=1280&q=85',
   },
   {
+    id: '2',
     num: '02',
     name: 'Aura Brand Identity',
     category: 'Personal',
@@ -28,6 +41,7 @@ const projects = [
       'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055753_adc5dcbd-a8e6-49c0-b43a-9b030d835cea.png&w=1280&q=85',
   },
   {
+    id: '3',
     num: '03',
     name: 'Solaris Digital',
     category: 'Client',
@@ -45,7 +59,7 @@ function ProjectCard({
   index,
   totalCards,
 }: {
-  project: (typeof projects)[0]
+  project: Project
   index: number
   totalCards: number
 }) {
@@ -91,35 +105,35 @@ function ProjectCard({
 
         <div className="flex gap-2 sm:gap-4">
           <div className="flex flex-col gap-2 sm:gap-4 w-[40%]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={project.col1img1}
-              alt={`${project.name} screenshot 1`}
+              alt={`${project.name} design screenshot 1`}
               width={400}
               height={230}
               loading="lazy"
+              sizes="(max-width: 640px) 40vw, 400px"
               className="w-full rounded-[16px] sm:rounded-[40px] md:rounded-[60px] object-cover"
               style={{ height: 'clamp(80px, 16vw, 230px)' }}
             />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={project.col1img2}
-              alt={`${project.name} screenshot 2`}
+              alt={`${project.name} design screenshot 2`}
               width={400}
               height={340}
               loading="lazy"
+              sizes="(max-width: 640px) 40vw, 400px"
               className="w-full rounded-[16px] sm:rounded-[40px] md:rounded-[60px] object-cover"
               style={{ height: 'clamp(100px, 22vw, 340px)' }}
             />
           </div>
           <div className="w-[60%]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={project.col2img}
-              alt={`${project.name} preview`}
+              alt={`${project.name} full preview`}
               width={600}
               height={600}
               loading="lazy"
+              sizes="(max-width: 640px) 60vw, 600px"
               className="w-full h-full rounded-[16px] sm:rounded-[40px] md:rounded-[60px] object-cover"
             />
           </div>
@@ -130,6 +144,19 @@ function ProjectCard({
 }
 
 export default function ProjectsSection() {
+  const [projects, setProjects] = useState<Project[]>(fallbackProjects)
+
+  useEffect(() => {
+    fetch('/api/projects')
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setProjects(data)
+        }
+      })
+      .catch(() => {})
+  }, [])
+
   return (
     <section
       id="projects"
@@ -141,7 +168,7 @@ export default function ProjectsSection() {
       <div className="max-w-5xl mx-auto">
         {projects.map((project, i) => (
           <ProjectCard
-            key={project.num}
+            key={project.id}
             project={project}
             index={i}
             totalCards={projects.length}

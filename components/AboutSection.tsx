@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import FadeIn from './FadeIn'
 import AnimatedText from './AnimatedText'
 import ContactButton from './ContactButton'
@@ -17,12 +18,13 @@ export default function AboutSection() {
         duration={0.9}
         className="hidden md:block absolute top-[4%] left-[4%] w-[160px] lg:w-[210px]"
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/moon_icon.11395d36.png"
-          alt="Moon icon"
+          alt="Moon icon decoration"
           width={210}
           height={210}
+          loading="lazy"
+          sizes="(max-width: 1024px) 160px, 210px"
           className="w-full h-auto"
         />
       </FadeIn>
@@ -33,12 +35,13 @@ export default function AboutSection() {
         duration={0.9}
         className="hidden md:block absolute bottom-[8%] left-[10%] w-[140px] lg:w-[180px]"
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/p59_1.4659672e.png"
-          alt="3D object"
+          alt="3D geometric object decoration"
           width={180}
           height={180}
+          loading="lazy"
+          sizes="(max-width: 1024px) 140px, 180px"
           className="w-full h-auto"
         />
       </FadeIn>
@@ -49,12 +52,13 @@ export default function AboutSection() {
         duration={0.9}
         className="hidden md:block absolute top-[4%] right-[4%] w-[160px] lg:w-[210px]"
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/lego_icon-1.703bb594.png"
-          alt="Lego icon"
+          alt="Lego icon decoration"
           width={210}
           height={210}
+          loading="lazy"
+          sizes="(max-width: 1024px) 160px, 210px"
           className="w-full h-auto"
         />
       </FadeIn>
@@ -65,12 +69,13 @@ export default function AboutSection() {
         duration={0.9}
         className="hidden md:block absolute bottom-[8%] right-[10%] w-[170px] lg:w-[220px]"
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/Group_134-1.2e04f3ce.png"
-          alt="3D group"
+          alt="3D group decoration"
           width={220}
           height={220}
+          loading="lazy"
+          sizes="(max-width: 1024px) 170px, 220px"
           className="w-full h-auto"
         />
       </FadeIn>
