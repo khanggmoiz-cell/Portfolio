@@ -1,23 +1,70 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import {
+  Facebook,
+  Instagram,
+  Linkedin,
+  MapPin,
+  Music,
+  ExternalLink,
+  X,
+  Image as ImageIcon,
+  Youtube,
+} from 'lucide-react'
 
 interface Project {
   id: string
   num: string
-  name: string
-  category: string
-  col1img1: string
-  col1img2: string
-  col2img: string
+  title: string
+  description: string
+  projectType: 'live-website' | 'media-design'
+  mediaSource: 'images' | 'youtube'
+  imageCount: 0 | 1 | 2 | 3
+  images: string[]
+  youtubeUrl: string
+  liveUrl: string
+  facebookUrl: string
+  instagramUrl: string
+  tiktokUrl: string
+  linkedinUrl: string
+  googleBusinessUrl: string
 }
 
-const emptyProject = {
-  name: '',
-  category: 'Client',
-  col1img1: '',
-  col1img2: '',
-  col2img: '',
+function emptyProject(): Project {
+  return {
+    id: '',
+    num: '',
+    title: '',
+    description: '',
+    projectType: 'live-website',
+    mediaSource: 'images',
+    imageCount: 1,
+    images: [''],
+    youtubeUrl: '',
+    liveUrl: '',
+    facebookUrl: '',
+    instagramUrl: '',
+    tiktokUrl: '',
+    linkedinUrl: '',
+    googleBusinessUrl: '',
+  }
+}
+
+function Toast({ message, onClose }: { message: string; onClose: () => void }) {
+  useEffect(() => {
+    const t = setTimeout(onClose, 3000)
+    return () => clearTimeout(t)
+  }, [onClose])
+
+  return (
+    <div className="fixed bottom-6 right-6 z-50 bg-emerald-500/90 backdrop-blur-sm text-white px-6 py-3 rounded-xl shadow-lg flex items-center gap-3 animate-[slideUp_0.3s_ease-out]">
+      <span className="font-medium">{message}</span>
+      <button onClick={onClose} className="cursor-pointer">
+        <X className="w-4 h-4" />
+      </button>
+    </div>
+  )
 }
 
 export default function AdminPanel() {
@@ -28,22 +75,44 @@ export default function AdminPanel() {
   const [projects, setProjects] = useState<Project[]>([])
   const [editing, setEditing] = useState<Project | null>(null)
   const [showForm, setShowForm] = useState(false)
-  const [formData, setFormData] = useState(emptyProject)
-  const [saving, setSaving] = useState(false)
+  const [formData, setFormData] = useState<Project>(emptyProject())
   const [activeTab, setActiveTab] = useState<'list' | 'add'>('list')
+  const [mediaTab, setMediaTab] = useState<'images' | 'youtube'>('images')
+  const [toast, setToast] = useState('')
 
   useEffect(() => {
     const auth = sessionStorage.getItem('admin-auth')
     if (auth === 'admin-authenticated') {
       setIsLoggedIn(true)
-      fetchProjects()
+      loadProjects()
     }
   }, [])
 
-  async function fetchProjects() {
-    const res = await fetch('/api/projects')
-    const data = await res.json()
-    setProjects(data)
+  function loadProjects() {
+    const stored = localStorage.getItem('portfolio-projects')
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored)
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setProjects(parsed)
+          return
+        }
+      } catch {}
+    }
+    fetch('/api/projects')
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setProjects(data)
+          localStorage.setItem('portfolio-projects', JSON.stringify(data))
+        }
+      })
+      .catch(() => {})
+  }
+
+  function saveProjects(list: Project[]) {
+    setProjects(list)
+    localStorage.setItem('portfolio-projects', JSON.stringify(list))
   }
 
   async function handleLogin(e: React.FormEvent) {
@@ -58,7 +127,7 @@ export default function AdminPanel() {
     if (data.success) {
       sessionStorage.setItem('admin-auth', data.token)
       setIsLoggedIn(true)
-      fetchProjects()
+      loadProjects()
     } else {
       setLoginError('Invalid username or password')
     }
@@ -73,52 +142,62 @@ export default function AdminPanel() {
 
   function handleAddNew() {
     setEditing(null)
-    setFormData(emptyProject)
+    setFormData(emptyProject())
+    setMediaTab('images')
     setShowForm(true)
     setActiveTab('add')
   }
 
   function handleEdit(project: Project) {
     setEditing(project)
-    setFormData({
-      name: project.name,
-      category: project.category,
-      col1img1: project.col1img1,
-      col1img2: project.col1img2,
-      col2img: project.col2img,
-    })
+    setFormData({ ...project })
+    setMediaTab(project.mediaSource === 'youtube' ? 'youtube' : 'images')
     setShowForm(true)
   }
 
-  async function handleSave(e: React.FormEvent) {
+  function handleSave(e: React.FormEvent) {
     e.preventDefault()
-    setSaving(true)
 
-    if (editing) {
-      await fetch(`/api/projects/${editing.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      })
+    const proj = { ...formData }
+
+    if (proj.mediaSource === 'images') {
+      proj.youtubeUrl = ''
+      proj.images = proj.images.slice(0, proj.imageCount)
+      while (proj.images.length < proj.imageCount) proj.images.push('')
     } else {
-      await fetch('/api/projects', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      })
+      proj.images = []
+      proj.imageCount = 0
     }
 
-    setSaving(false)
+    let updated: Project[]
+    if (editing) {
+      updated = projects.map((p) => (p.id === editing.id ? proj : p))
+    } else {
+      const newId = String(Date.now())
+      const num = String(projects.length + 1).padStart(2, '0')
+      proj.id = newId
+      proj.num = num
+      updated = [...projects, proj]
+    }
+
+    saveProjects(updated)
+    setToast(editing ? 'Project updated successfully!' : 'Project saved successfully!')
     setShowForm(false)
     setEditing(null)
-    setFormData(emptyProject)
-    fetchProjects()
+    setFormData(emptyProject())
   }
 
-  async function handleDelete(id: string) {
+  function handleDelete(id: string) {
     if (!confirm('Are you sure you want to delete this project?')) return
-    await fetch(`/api/projects/${id}`, { method: 'DELETE' })
-    fetchProjects()
+    const updated = projects.filter((p) => p.id !== id)
+    saveProjects(updated)
+    setToast('Project deleted!')
+  }
+
+  function getYoutubeEmbed(url: string): string {
+    if (!url) return ''
+    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([^&?#]+)/)
+    return match ? `https://www.youtube.com/embed/${match[1]}` : ''
   }
 
   if (!isLoggedIn) {
@@ -135,7 +214,6 @@ export default function AdminPanel() {
               <h1 className="text-2xl font-bold text-[#D7E2EA]">Admin Panel</h1>
               <p className="text-[#667] mt-2 text-sm">Login to manage your projects</p>
             </div>
-
             <form onSubmit={handleLogin} className="space-y-5">
               <div>
                 <label className="block text-[#8899AA] text-xs font-medium uppercase tracking-wider mb-2">Username</label>
@@ -179,7 +257,8 @@ export default function AdminPanel() {
 
   return (
     <div className="min-h-screen bg-[#0C0C0C]">
-      {/* Top Bar */}
+      {toast && <Toast message={toast} onClose={() => setToast('')} />}
+
       <header className="border-b border-[#222] bg-[#111111]/80 backdrop-blur-xl sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -206,23 +285,21 @@ export default function AdminPanel() {
       </header>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           <div className="bg-[#111111] border border-[#222] rounded-2xl p-5">
             <div className="text-[#667] text-xs uppercase tracking-wider font-medium mb-1">Total Projects</div>
             <div className="text-[#D7E2EA] text-3xl font-black">{projects.length}</div>
           </div>
           <div className="bg-[#111111] border border-[#222] rounded-2xl p-5">
-            <div className="text-[#667] text-xs uppercase tracking-wider font-medium mb-1">Client Projects</div>
-            <div className="text-[#D7E2EA] text-3xl font-black">{projects.filter(p => p.category === 'Client').length}</div>
+            <div className="text-[#667] text-xs uppercase tracking-wider font-medium mb-1">Live Websites</div>
+            <div className="text-[#D7E2EA] text-3xl font-black">{projects.filter((p) => p.projectType === 'live-website').length}</div>
           </div>
           <div className="bg-[#111111] border border-[#222] rounded-2xl p-5">
-            <div className="text-[#667] text-xs uppercase tracking-wider font-medium mb-1">Personal Projects</div>
-            <div className="text-[#D7E2EA] text-3xl font-black">{projects.filter(p => p.category === 'Personal').length}</div>
+            <div className="text-[#667] text-xs uppercase tracking-wider font-medium mb-1">Media / Design</div>
+            <div className="text-[#D7E2EA] text-3xl font-black">{projects.filter((p) => p.projectType === 'media-design').length}</div>
           </div>
         </div>
 
-        {/* Tabs */}
         <div className="flex items-center gap-2 mb-6">
           <button
             onClick={() => { setActiveTab('list'); setShowForm(false) }}
@@ -238,110 +315,243 @@ export default function AdminPanel() {
           </button>
         </div>
 
-        {/* Form */}
         {showForm && (
-          <div className="bg-[#111111] border border-[#222] rounded-3xl p-6 sm:p-8 mb-8">
-            <h2 className="text-[#D7E2EA] font-bold text-xl mb-6">
-              {editing ? 'Edit Project' : 'Add New Project'}
-            </h2>
-            <form onSubmit={handleSave} className="space-y-5">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <form onSubmit={handleSave} className="space-y-6 mb-8">
+            <div className="bg-[#111111] border border-[#222] rounded-3xl p-6 sm:p-8">
+              <h2 className="text-[#D7E2EA] font-bold text-xl mb-6">
+                {editing ? 'Edit Project' : 'Add New Project'}
+              </h2>
+              <div className="space-y-5">
                 <div>
-                  <label className="block text-[#8899AA] text-xs font-medium uppercase tracking-wider mb-2">Project Name *</label>
+                  <label className="block text-[#8899AA] text-xs font-medium uppercase tracking-wider mb-2">Title *</label>
                   <input
                     type="text"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    value={formData.title}
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                     className="w-full bg-[#0C0C0C] border border-[#333] rounded-xl px-4 py-3 text-[#D7E2EA] focus:outline-none focus:border-[#D7E2EA] transition-colors"
                     placeholder="e.g. Nextlevel Studio"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-[#8899AA] text-xs font-medium uppercase tracking-wider mb-2">Category *</label>
-                  <select
-                    value={formData.category}
-                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full bg-[#0C0C0C] border border-[#333] rounded-xl px-4 py-3 text-[#D7E2EA] focus:outline-none focus:border-[#D7E2EA] transition-colors cursor-pointer"
-                  >
-                    <option value="Client">Client</option>
-                    <option value="Personal">Personal</option>
-                  </select>
+                  <label className="block text-[#8899AA] text-xs font-medium uppercase tracking-wider mb-2">Description</label>
+                  <textarea
+                    value={formData.description}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    className="w-full bg-[#0C0C0C] border border-[#333] rounded-xl px-4 py-3 text-[#D7E2EA] focus:outline-none focus:border-[#D7E2EA] transition-colors resize-none"
+                    placeholder="Brief description of the project"
+                    rows={3}
+                  />
+                </div>
+                <div>
+                  <label className="block text-[#8899AA] text-xs font-medium uppercase tracking-wider mb-2">Project Type *</label>
+                  <div className="flex gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, projectType: 'live-website' })}
+                      className={`px-5 py-2.5 rounded-xl text-sm font-medium transition-colors cursor-pointer ${formData.projectType === 'live-website' ? 'bg-[#D7E2EA] text-[#0C0C0C]' : 'bg-[#0C0C0C] border border-[#333] text-[#8899AA]'}`}
+                    >
+                      Live Website
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, projectType: 'media-design' })}
+                      className={`px-5 py-2.5 rounded-xl text-sm font-medium transition-colors cursor-pointer ${formData.projectType === 'media-design' ? 'bg-[#D7E2EA] text-[#0C0C0C]' : 'bg-[#0C0C0C] border border-[#333] text-[#8899AA]'}`}
+                    >
+                      Media / Design
+                    </button>
+                  </div>
                 </div>
               </div>
+            </div>
 
-              <div>
-                <label className="block text-[#8899AA] text-xs font-medium uppercase tracking-wider mb-2">Image 1 (Left Top) *</label>
-                <input
-                  type="url"
-                  value={formData.col1img1}
-                  onChange={(e) => setFormData({ ...formData, col1img1: e.target.value })}
-                  className="w-full bg-[#0C0C0C] border border-[#333] rounded-xl px-4 py-3 text-[#D7E2EA] focus:outline-none focus:border-[#D7E2EA] transition-colors"
-                  placeholder="https://example.com/image1.jpg"
-                  required
-                />
-                {formData.col1img1 && (
-                  <div className="mt-2 rounded-xl overflow-hidden border border-[#333] h-32 bg-[#0C0C0C]">
-                    <img src={formData.col1img1} alt="Preview 1" className="w-full h-full object-cover" />
-                  </div>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-[#8899AA] text-xs font-medium uppercase tracking-wider mb-2">Image 2 (Left Bottom) *</label>
-                <input
-                  type="url"
-                  value={formData.col1img2}
-                  onChange={(e) => setFormData({ ...formData, col1img2: e.target.value })}
-                  className="w-full bg-[#0C0C0C] border border-[#333] rounded-xl px-4 py-3 text-[#D7E2EA] focus:outline-none focus:border-[#D7E2EA] transition-colors"
-                  placeholder="https://example.com/image2.jpg"
-                  required
-                />
-                {formData.col1img2 && (
-                  <div className="mt-2 rounded-xl overflow-hidden border border-[#333] h-32 bg-[#0C0C0C]">
-                    <img src={formData.col1img2} alt="Preview 2" className="w-full h-full object-cover" />
-                  </div>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-[#8899AA] text-xs font-medium uppercase tracking-wider mb-2">Image 3 (Right Large) *</label>
-                <input
-                  type="url"
-                  value={formData.col2img}
-                  onChange={(e) => setFormData({ ...formData, col2img: e.target.value })}
-                  className="w-full bg-[#0C0C0C] border border-[#333] rounded-xl px-4 py-3 text-[#D7E2EA] focus:outline-none focus:border-[#D7E2EA] transition-colors"
-                  placeholder="https://example.com/image3.jpg"
-                  required
-                />
-                {formData.col2img && (
-                  <div className="mt-2 rounded-xl overflow-hidden border border-[#333] h-32 bg-[#0C0C0C]">
-                    <img src={formData.col2img} alt="Preview 3" className="w-full h-full object-cover" />
-                  </div>
-                )}
-              </div>
-
-              <div className="flex items-center gap-3 pt-2">
+            <div className="bg-[#111111] border border-[#222] rounded-3xl p-6 sm:p-8">
+              <h2 className="text-[#D7E2EA] font-bold text-xl mb-6">Media Source</h2>
+              <div className="flex gap-2 mb-6">
                 <button
-                  type="submit"
-                  disabled={saving}
-                  className="px-8 py-3 bg-gradient-to-r from-[#D7E2EA] to-[#8899AA] text-[#0C0C0C] font-bold rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 cursor-pointer"
+                  type="button"
+                  onClick={() => setMediaTab('images')}
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-colors cursor-pointer ${mediaTab === 'images' ? 'bg-[#D7E2EA] text-[#0C0C0C]' : 'bg-[#0C0C0C] border border-[#333] text-[#8899AA]'}`}
                 >
-                  {saving ? 'Saving...' : editing ? 'Update Project' : 'Add Project'}
+                  <ImageIcon className="w-4 h-4" />
+                  Images
                 </button>
                 <button
                   type="button"
-                  onClick={() => { setShowForm(false); setEditing(null); setFormData(emptyProject) }}
-                  className="px-8 py-3 bg-[#1a1a1a] border border-[#333] text-[#8899AA] rounded-xl hover:bg-[#222] transition-colors cursor-pointer"
+                  onClick={() => setMediaTab('youtube')}
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-colors cursor-pointer ${mediaTab === 'youtube' ? 'bg-[#D7E2EA] text-[#0C0C0C]' : 'bg-[#0C0C0C] border border-[#333] text-[#8899AA]'}`}
                 >
-                  Cancel
+                  <Youtube className="w-4 h-4" />
+                  YouTube
                 </button>
               </div>
-            </form>
-          </div>
+
+              {mediaTab === 'images' && (
+                <div className="space-y-5">
+                  <div>
+                    <label className="block text-[#8899AA] text-xs font-medium uppercase tracking-wider mb-2">Image Count</label>
+                    <div className="flex gap-3">
+                      {([1, 2, 3] as const).map((n) => (
+                        <button
+                          key={n}
+                          type="button"
+                          onClick={() => {
+                            const images = [...formData.images]
+                            while (images.length < n) images.push('')
+                            setFormData({ ...formData, imageCount: n, images: images.slice(0, n), mediaSource: 'images' })
+                          }}
+                          className={`w-12 h-12 rounded-xl text-sm font-bold transition-colors cursor-pointer ${formData.imageCount === n ? 'bg-[#D7E2EA] text-[#0C0C0C]' : 'bg-[#0C0C0C] border border-[#333] text-[#8899AA]'}`}
+                        >
+                          {n}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  {Array.from({ length: formData.imageCount }).map((_, i) => (
+                    <div key={i}>
+                      <label className="block text-[#8899AA] text-xs font-medium uppercase tracking-wider mb-2">Image {i + 1} URL *</label>
+                      <input
+                        type="url"
+                        value={formData.images[i] || ''}
+                        onChange={(e) => {
+                          const images = [...formData.images]
+                          images[i] = e.target.value
+                          setFormData({ ...formData, images })
+                        }}
+                        className="w-full bg-[#0C0C0C] border border-[#333] rounded-xl px-4 py-3 text-[#D7E2EA] focus:outline-none focus:border-[#D7E2EA] transition-colors"
+                        placeholder="https://example.com/image.jpg"
+                        required
+                      />
+                      {formData.images[i] && (
+                        <div className="mt-2 rounded-xl overflow-hidden border border-[#333] h-32 bg-[#0C0C0C]">
+                          <img src={formData.images[i]} alt={`Preview ${i + 1}`} className="w-full h-full object-cover" />
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {mediaTab === 'youtube' && (
+                <div className="space-y-5">
+                  <div>
+                    <label className="block text-[#8899AA] text-xs font-medium uppercase tracking-wider mb-2">YouTube URL</label>
+                    <input
+                      type="url"
+                      value={formData.youtubeUrl}
+                      onChange={(e) => setFormData({ ...formData, youtubeUrl: e.target.value, mediaSource: 'youtube' })}
+                      className="w-full bg-[#0C0C0C] border border-[#333] rounded-xl px-4 py-3 text-[#D7E2EA] focus:outline-none focus:border-[#D7E2EA] transition-colors"
+                      placeholder="https://www.youtube.com/watch?v=..."
+                    />
+                  </div>
+                  {formData.youtubeUrl && getYoutubeEmbed(formData.youtubeUrl) && (
+                    <div className="rounded-xl overflow-hidden border border-[#333] aspect-video bg-[#0C0C0C]">
+                      <iframe
+                        src={getYoutubeEmbed(formData.youtubeUrl)}
+                        className="w-full h-full"
+                        allowFullScreen
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <div className="bg-[#111111] border border-[#222] rounded-3xl p-6 sm:p-8">
+              <h2 className="text-[#D7E2EA] font-bold text-xl mb-6">Links & Social</h2>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <ExternalLink className="w-5 h-5 text-[#8899AA] shrink-0" />
+                  <input
+                    type="url"
+                    value={formData.liveUrl}
+                    onChange={(e) => setFormData({ ...formData, liveUrl: e.target.value })}
+                    className="flex-1 bg-[#0C0C0C] border border-[#333] rounded-xl px-4 py-3 text-[#D7E2EA] focus:outline-none focus:border-[#D7E2EA] transition-colors"
+                    placeholder="Live project URL"
+                  />
+                  {formData.liveUrl && (
+                    <a
+                      href={formData.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-3 bg-[#0C0C0C] border border-[#333] rounded-xl text-[#8899AA] text-sm hover:bg-[#222] transition-colors"
+                    >
+                      Preview
+                    </a>
+                  )}
+                </div>
+                <div className="flex items-center gap-3">
+                  <Facebook className="w-5 h-5 text-[#8899AA] shrink-0" />
+                  <input
+                    type="url"
+                    value={formData.facebookUrl}
+                    onChange={(e) => setFormData({ ...formData, facebookUrl: e.target.value })}
+                    className="flex-1 bg-[#0C0C0C] border border-[#333] rounded-xl px-4 py-3 text-[#D7E2EA] focus:outline-none focus:border-[#D7E2EA] transition-colors"
+                    placeholder="Facebook page URL"
+                  />
+                </div>
+                <div className="flex items-center gap-3">
+                  <Instagram className="w-5 h-5 text-[#8899AA] shrink-0" />
+                  <input
+                    type="url"
+                    value={formData.instagramUrl}
+                    onChange={(e) => setFormData({ ...formData, instagramUrl: e.target.value })}
+                    className="flex-1 bg-[#0C0C0C] border border-[#333] rounded-xl px-4 py-3 text-[#D7E2EA] focus:outline-none focus:border-[#D7E2EA] transition-colors"
+                    placeholder="Instagram profile URL"
+                  />
+                </div>
+                <div className="flex items-center gap-3">
+                  <Music className="w-5 h-5 text-[#8899AA] shrink-0" />
+                  <input
+                    type="url"
+                    value={formData.tiktokUrl}
+                    onChange={(e) => setFormData({ ...formData, tiktokUrl: e.target.value })}
+                    className="flex-1 bg-[#0C0C0C] border border-[#333] rounded-xl px-4 py-3 text-[#D7E2EA] focus:outline-none focus:border-[#D7E2EA] transition-colors"
+                    placeholder="TikTok profile URL"
+                  />
+                </div>
+                <div className="flex items-center gap-3">
+                  <Linkedin className="w-5 h-5 text-[#8899AA] shrink-0" />
+                  <input
+                    type="url"
+                    value={formData.linkedinUrl}
+                    onChange={(e) => setFormData({ ...formData, linkedinUrl: e.target.value })}
+                    className="flex-1 bg-[#0C0C0C] border border-[#333] rounded-xl px-4 py-3 text-[#D7E2EA] focus:outline-none focus:border-[#D7E2EA] transition-colors"
+                    placeholder="LinkedIn profile URL"
+                  />
+                </div>
+                <div className="flex items-center gap-3">
+                  <MapPin className="w-5 h-5 text-[#8899AA] shrink-0" />
+                  <input
+                    type="url"
+                    value={formData.googleBusinessUrl}
+                    onChange={(e) => setFormData({ ...formData, googleBusinessUrl: e.target.value })}
+                    className="flex-1 bg-[#0C0C0C] border border-[#333] rounded-xl px-4 py-3 text-[#D7E2EA] focus:outline-none focus:border-[#D7E2EA] transition-colors"
+                    placeholder="Google Business profile URL"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <button
+                type="submit"
+                className="px-8 py-3 bg-gradient-to-r from-[#D7E2EA] to-[#8899AA] text-[#0C0C0C] font-bold rounded-xl hover:opacity-90 transition-opacity cursor-pointer"
+              >
+                {editing ? 'Update Project' : 'Save & Publish'}
+              </button>
+              <button
+                type="button"
+                onClick={() => { setShowForm(false); setEditing(null); setFormData(emptyProject()) }}
+                className="px-8 py-3 bg-[#1a1a1a] border border-[#333] text-[#8899AA] rounded-xl hover:bg-[#222] transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
         )}
 
-        {/* Projects List */}
         {!showForm && (
           <div className="space-y-4">
             {projects.length === 0 ? (
@@ -355,45 +565,62 @@ export default function AdminPanel() {
                   className="bg-[#111111] border border-[#222] rounded-2xl p-4 sm:p-6 hover:border-[#444] transition-colors"
                 >
                   <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
-                    {/* Images Preview */}
                     <div className="flex gap-2 w-full sm:w-64 shrink-0">
-                      <div className="flex flex-col gap-2 w-1/3">
-                        <div className="rounded-lg overflow-hidden bg-[#0C0C0C] aspect-[3/4]">
-                          {project.col1img1 ? (
-                            <img src={project.col1img1} alt="" className="w-full h-full object-cover" />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center text-[#333] text-xs">Img 1</div>
-                          )}
+                      {project.mediaSource === 'youtube' && project.youtubeUrl ? (
+                        <div className="w-full rounded-lg overflow-hidden border border-[#333] aspect-video bg-[#0C0C0C]">
+                          <iframe
+                            src={getYoutubeEmbed(project.youtubeUrl)}
+                            className="w-full h-full"
+                            allowFullScreen
+                          />
                         </div>
-                        <div className="rounded-lg overflow-hidden bg-[#0C0C0C] aspect-[3/4]">
-                          {project.col1img2 ? (
-                            <img src={project.col1img2} alt="" className="w-full h-full object-cover" />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center text-[#333] text-xs">Img 2</div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="w-2/3">
-                        <div className="rounded-lg overflow-hidden bg-[#0C0C0C] h-full">
-                          {project.col2img ? (
-                            <img src={project.col2img} alt="" className="w-full h-full object-cover" />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center text-[#333] text-xs">Img 3</div>
-                          )}
-                        </div>
-                      </div>
+                      ) : (
+                        <>
+                          <div className="flex flex-col gap-2 w-1/3">
+                            {(project.images[0] || project.images[1]) && (
+                              <div className="rounded-lg overflow-hidden bg-[#0C0C0C] aspect-[3/4]">
+                                {project.images[0] ? (
+                                  <img src={project.images[0]} alt="" className="w-full h-full object-cover" />
+                                ) : (
+                                  <div className="w-full h-full flex items-center justify-center text-[#333] text-xs">Img 1</div>
+                                )}
+                              </div>
+                            )}
+                            {project.imageCount >= 2 && project.images[1] && (
+                              <div className="rounded-lg overflow-hidden bg-[#0C0C0C] aspect-[3/4]">
+                                <img src={project.images[1]} alt="" className="w-full h-full object-cover" />
+                              </div>
+                            )}
+                          </div>
+                          <div className="w-2/3">
+                            <div className="rounded-lg overflow-hidden bg-[#0C0C0C] h-full">
+                              {project.imageCount >= 3 && project.images[2] ? (
+                                <img src={project.images[2]} alt="" className="w-full h-full object-cover" />
+                              ) : project.imageCount === 1 && project.images[0] ? (
+                                <img src={project.images[0]} alt="" className="w-full h-full object-cover" />
+                              ) : project.imageCount === 2 && project.images[1] ? (
+                                <img src={project.images[1]} alt="" className="w-full h-full object-cover" />
+                              ) : (
+                                <div className="w-full h-full flex items-center justify-center text-[#333] text-xs">No image</div>
+                              )}
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
 
-                    {/* Info */}
                     <div className="flex-1 flex flex-col justify-between">
                       <div>
                         <div className="flex items-center gap-3 mb-2">
                           <span className="text-[#D7E2EA] font-black text-2xl">{project.num}</span>
-                          <span className="px-3 py-1 bg-[#0C0C0C] border border-[#333] rounded-lg text-[#8899AA] text-xs uppercase tracking-wider">
-                            {project.category}
+                          <span className={`px-3 py-1 rounded-lg text-xs uppercase tracking-wider font-medium ${project.projectType === 'live-website' ? 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-400' : 'bg-purple-500/10 border border-purple-500/30 text-purple-400'}`}>
+                            {project.projectType === 'live-website' ? 'Live Website' : 'Media / Design'}
                           </span>
                         </div>
-                        <h3 className="text-[#D7E2EA] font-bold text-xl">{project.name}</h3>
+                        <h3 className="text-[#D7E2EA] font-bold text-xl">{project.title}</h3>
+                        {project.description && (
+                          <p className="text-[#8899AA] text-sm mt-1 line-clamp-2">{project.description}</p>
+                        )}
                       </div>
                       <div className="flex items-center gap-3 mt-4">
                         <button
