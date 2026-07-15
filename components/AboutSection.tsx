@@ -18,7 +18,7 @@ export default function AboutSection() {
         x={-80}
         y={0}
         duration={0.9}
-        className="hidden md:block absolute top-[4%] left-[4%] w-[160px] lg:w-[210px]"
+        className="absolute top-[4%] left-[4%] w-[100px] sm:w-[120px] md:w-[160px] lg:w-[210px]"
       >
         <Image
           src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/moon_icon.11395d36.png"
@@ -37,7 +37,7 @@ export default function AboutSection() {
         x={-80}
         y={0}
         duration={0.9}
-        className="hidden md:block absolute bottom-[8%] left-[10%] w-[140px] lg:w-[180px]"
+        className="absolute bottom-[8%] left-[10%] w-[90px] sm:w-[110px] md:w-[140px] lg:w-[180px]"
       >
         <Image
           src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/p59_1.4659672e.png"
@@ -56,7 +56,7 @@ export default function AboutSection() {
         x={80}
         y={0}
         duration={0.9}
-        className="hidden md:block absolute top-[4%] right-[4%] w-[160px] lg:w-[210px]"
+        className="absolute top-[4%] right-[4%] w-[100px] sm:w-[120px] md:w-[160px] lg:w-[210px]"
       >
         <Image
           src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/lego_icon-1.703bb594.png"
@@ -75,7 +75,7 @@ export default function AboutSection() {
         x={80}
         y={0}
         duration={0.9}
-        className="hidden md:block absolute bottom-[8%] right-[10%] w-[170px] lg:w-[220px]"
+        className="absolute bottom-[8%] right-[10%] w-[110px] sm:w-[130px] md:w-[170px] lg:w-[220px]"
       >
         <Image
           src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/Group_134-1.2e04f3ce.png"
