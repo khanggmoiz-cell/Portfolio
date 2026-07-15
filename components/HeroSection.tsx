@@ -192,7 +192,7 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen h-auto lg:h-screen flex flex-col bg-[#0C0C0C] overflow-hidden"
+      className="relative min-h-screen h-auto lg:h-screen flex flex-col bg-[#0C0C0C] overflow-x-clip"
     >
       <Navbar />
       <MouseLight />
@@ -292,16 +292,16 @@ export default function HeroSection() {
               delay: 0.4,
               ease: [0.25, 0.1, 0.25, 1],
             }}
-            className="order-1 lg:order-2 flex flex-col items-center justify-center lg:justify-end relative gap-4 sm:gap-6"
+            className="order-1 lg:order-2 flex flex-col items-center justify-center lg:justify-end relative"
           >
             <div className="absolute w-[70%] h-[70%] rounded-full bg-[#7621B0]/30 blur-[40px] sm:blur-[60px]" />
             <div className="absolute w-[50%] h-[50%] rounded-full bg-[#B600A8]/20 blur-[30px] sm:blur-[50px]" />
             <div className="absolute w-[40%] h-[40%] rounded-full bg-[#BE4C00]/15 blur-[25px] sm:blur-[40px]" />
-<Magnet padding={150} strength={3}>
+            <Magnet padding={150} strength={3}>
               <motion.div
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                className="relative z-10 w-[85%] sm:w-[90%] md:w-[70%] lg:w-[85%] xl:w-[90%] max-w-[450px]"
+                className="relative z-10 w-[75%] sm:w-[80%] md:w-[65%] lg:w-[110%] xl:w-[120%] max-w-[650px] lg:translate-y-[10%]"
               >
                 <Image
                   src="/3d-character.png"
