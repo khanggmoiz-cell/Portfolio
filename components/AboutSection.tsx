@@ -5,6 +5,8 @@ import FadeIn from './FadeIn'
 import AnimatedText from './AnimatedText'
 import ContactButton from './ContactButton'
 
+const BLUR_PLACEHOLDER = 'data:image/webp;base64,UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA'
+
 export default function AboutSection() {
   return (
     <section
@@ -24,6 +26,8 @@ export default function AboutSection() {
           width={210}
           height={210}
           loading="lazy"
+          placeholder="blur"
+          blurDataURL={BLUR_PLACEHOLDER}
           sizes="(max-width: 1024px) 160px, 210px"
           className="w-full h-auto"
         />
@@ -41,6 +45,8 @@ export default function AboutSection() {
           width={180}
           height={180}
           loading="lazy"
+          placeholder="blur"
+          blurDataURL={BLUR_PLACEHOLDER}
           sizes="(max-width: 1024px) 140px, 180px"
           className="w-full h-auto"
         />
@@ -58,6 +64,8 @@ export default function AboutSection() {
           width={210}
           height={210}
           loading="lazy"
+          placeholder="blur"
+          blurDataURL={BLUR_PLACEHOLDER}
           sizes="(max-width: 1024px) 160px, 210px"
           className="w-full h-auto"
         />
@@ -75,6 +83,8 @@ export default function AboutSection() {
           width={220}
           height={220}
           loading="lazy"
+          placeholder="blur"
+          blurDataURL={BLUR_PLACEHOLDER}
           sizes="(max-width: 1024px) 170px, 220px"
           className="w-full h-auto"
         />
@@ -83,13 +93,13 @@ export default function AboutSection() {
       <div className="flex flex-col items-center gap-8 sm:gap-10 md:gap-16 z-10 w-full">
         <FadeIn delay={0} y={40}>
           <h2 className="hero-heading font-black uppercase leading-none tracking-tight text-center text-[12vw] sm:text-[10vw] md:text-[8vw] lg:text-[6rem]">
-            About me
+            About CodeComs
           </h2>
         </FadeIn>
 
         <div className="flex flex-col items-center gap-10 sm:gap-12 md:gap-24">
           <AnimatedText
-            text="I am Abdul Moiz, a multi-talented Web Designer, Developer, and Digital Growth Strategist. I specialize in turning high-energy 'vibe coding' into stunning, high-converting digital experiences. From corporate business websites and personal portfolios to e-commerce stores and high-impact landing pages, I build everything from scratch with a unique, data-driven approach. My innovation lies in utilizing advanced, automated workflows—leveraging Google Sheets for robust backend data management to ensure lightweight, fast, and scalable architectures. But I don't just stop at building websites. I provide full-stack digital transformation for local businesses like restaurants, mechanics, and entrepreneurs. I create and manage social media profiles (Facebook, Instagram, TikTok), run high-ROI Meta Ad campaigns, and optimize Google My Business (GMB) profiles to ensure my clients dominate local search results. I bring businesses online and make sure they get noticed, booked, and paid."
+            text="CodeComs is a full-service digital agency dedicated to helping local businesses thrive online. We specialize in building high-converting websites, custom e-commerce stores, and data-driven digital marketing strategies. Our team combines web development expertise with advanced SEO, Google My Business optimization, social media management, and Meta Ads to deliver measurable results. From restaurants and mechanics to entrepreneurs and retail stores, we provide end-to-end digital transformation — including website design, local search optimization, Facebook and Instagram advertising, and Google Maps ranking strategies. Our approach is simple: we build, we optimize, and we grow your business so you get noticed, booked, and paid."
             className="text-[#D7E2EA] font-medium text-center leading-relaxed max-w-[90vw] sm:max-w-[600px] md:max-w-[700px] text-sm sm:text-base md:text-lg"
           />
           <FadeIn delay={0.3}>

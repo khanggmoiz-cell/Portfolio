@@ -6,28 +6,28 @@ import FadeIn from './FadeIn'
 const services = [
   {
     num: '01',
-    name: 'Web Design & Development',
-    desc: 'Building stunning, high-converting websites from scratch — corporate sites, portfolios, e-commerce stores, and landing pages with clean code and data-driven design.',
+    name: 'Web Development Services',
+    desc: 'Professional website development services — custom business websites, landing pages, and corporate sites built with clean code, fast performance, and mobile-first design to convert visitors into customers.',
   },
   {
     num: '02',
-    name: 'SEO & Local SEO',
-    desc: 'Optimizing websites for search engines and local search results to ensure businesses rank higher and get discovered by the right audience.',
+    name: 'E-commerce Website Services',
+    desc: 'Complete e-commerce website design and development — online stores with secure payment integration, inventory management, and optimized product pages that drive sales 24/7.',
   },
   {
     num: '03',
-    name: 'Google Business Profile',
-    desc: 'Full Google Business Profile (GMB) setup and optimization with Google Maps ranking strategies to dominate local search results.',
+    name: 'Google My Business Optimization',
+    desc: 'Google My Business (GMB) setup, optimization, and local SEO strategies to help your business rank #1 on Google Maps and dominate "near me" searches in your area.',
   },
   {
     num: '04',
-    name: 'Meta Ads & Social Media',
-    desc: 'High-ROI Meta Ad campaigns across Facebook, Instagram, and TikTok. Complete social media management including page setup and content strategy.',
+    name: 'Social Media Management',
+    desc: 'Complete social media management services for Facebook, Instagram, and TikTok — content creation, scheduling, community management, and growth strategies that build your brand.',
   },
   {
     num: '05',
-    name: 'UI/UX Design',
-    desc: 'Crafting intuitive, visually stunning interfaces that delight users and drive engagement through research-backed design decisions.',
+    name: 'Meta Ads Services',
+    desc: 'High-ROI Meta advertising campaigns on Facebook and Instagram — audience targeting, ad creative, A/B testing, and conversion optimization to maximize your ad spend.',
   },
 ]
 
@@ -39,7 +39,7 @@ export default function ServicesSection() {
     >
       <FadeIn delay={0.1}>
         <h2 className="text-[#0C0C0C] font-black uppercase text-center mb-10 sm:mb-20 md:mb-28 text-[10vw] sm:text-[8vw] md:text-[6vw] lg:text-[5rem]">
-          Services
+          Our Services
         </h2>
       </FadeIn>
       <div className="max-w-5xl mx-auto">
@@ -55,7 +55,6 @@ export default function ServicesSection() {
               }}
               whileHover={{ x: 16, scale: 1.01 }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              layout
             >
               <motion.span
                 className="text-[#0C0C0C] font-black flex-shrink-0 leading-none text-[7vw] sm:text-[6vw] md:text-[5vw] lg:text-[5rem]"

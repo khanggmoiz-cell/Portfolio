@@ -19,6 +19,7 @@ export default function Magnet({
   const posRef = useRef({ x: 0, y: 0 })
   const targetRef = useRef({ x: 0, y: 0 })
   const rafRef = useRef<number>(0)
+  const isRunning = useRef(false)
 
   useEffect(() => {
     const el = ref.current
@@ -26,6 +27,7 @@ export default function Magnet({
 
     const spring = 0.08
     const damping = 0.85
+    const idleThreshold = 0.01
 
     const animate = () => {
       posRef.current.x += (targetRef.current.x - posRef.current.x) * spring
@@ -33,10 +35,27 @@ export default function Magnet({
       posRef.current.x *= damping
       posRef.current.y *= damping
       el.style.transform = `translate3d(${posRef.current.x}px, ${posRef.current.y}px, 0)`
+
+      const isIdle =
+        Math.abs(posRef.current.x) < idleThreshold &&
+        Math.abs(posRef.current.y) < idleThreshold &&
+        Math.abs(targetRef.current.x) < idleThreshold &&
+        Math.abs(targetRef.current.y) < idleThreshold
+
+      if (isIdle) {
+        isRunning.current = false
+        el.style.transform = 'translate3d(0px, 0px, 0)'
+        return
+      }
       rafRef.current = requestAnimationFrame(animate)
     }
 
-    rafRef.current = requestAnimationFrame(animate)
+    const startLoop = () => {
+      if (!isRunning.current) {
+        isRunning.current = true
+        rafRef.current = requestAnimationFrame(animate)
+      }
+    }
 
     const handleMouseMove = (e: MouseEvent) => {
       const rect = el.getBoundingClientRect()
@@ -52,27 +71,31 @@ export default function Magnet({
           x: (e.clientX - centerX) / strength,
           y: (e.clientY - centerY) / strength,
         }
+        startLoop()
       } else {
         targetRef.current = { x: 0, y: 0 }
+        startLoop()
       }
     }
 
     const handleMouseLeave = () => {
       targetRef.current = { x: 0, y: 0 }
+      startLoop()
     }
 
-    window.addEventListener('mousemove', handleMouseMove)
+    el.addEventListener('mousemove', handleMouseMove as EventListener)
     el.addEventListener('mouseleave', handleMouseLeave)
 
     return () => {
       cancelAnimationFrame(rafRef.current)
-      window.removeEventListener('mousemove', handleMouseMove)
+      isRunning.current = false
+      el.removeEventListener('mousemove', handleMouseMove as EventListener)
       el.removeEventListener('mouseleave', handleMouseLeave)
     }
   }, [padding, strength])
 
   return (
-    <div ref={ref} className={className} style={{ willChange: 'transform' }}>
+    <div ref={ref} className={className}>
       {children}
     </div>
   )

@@ -1,19 +1,19 @@
 import type { Metadata, Viewport } from 'next'
-import { Kanit, Playfair_Display } from 'next/font/google'
+import { Kanit, Sora } from 'next/font/google'
 import './globals.css'
 
 const kanit = Kanit({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '800', '900'],
+  weight: ['300', '400', '500', '700', '900'],
   display: 'swap',
   variable: '--font-kanit',
 })
 
-const playfair = Playfair_Display({
+const sora = Sora({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800', '900'],
+  weight: ['400', '500', '600', '700'],
   display: 'swap',
-  variable: '--font-playfair',
+  variable: '--font-sora',
 })
 
 export const viewport: Viewport = {
@@ -23,52 +23,78 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://abdulmoiz.com'),
+  metadataBase: new URL('https://codecomes.vercel.app'),
   title: {
-    default: 'Abdul Moiz — Web Designer & Developer',
-    template: '%s | Abdul Moiz',
+    default: 'CodeComs — Web Development, E-commerce & Digital Marketing Agency',
+    template: '%s | CodeComs',
   },
   description:
-    'Abdul Moiz — Web Designer, Developer & Digital Growth Strategist. I build high-converting websites, e-commerce stores, and run Meta Ad campaigns for local businesses in Lahore, Pakistan.',
+    'CodeComs is a full-service digital agency offering professional web development, e-commerce website design, Google My Business optimization, social media management, and Meta Ads services. We help local businesses dominate online.',
   keywords: [
-    'web designer lahore',
-    'web developer pakistan',
-    'digital marketing lahore',
-    'SEO services pakistan',
-    'Meta Ads management',
+    'web development services',
     'e-commerce website development',
-    'UI UX designer',
-    'Google Business Profile optimization',
-    'social media management',
+    'Google My Business optimization',
+    'GMB services',
+    'social media management services',
+    'Meta Ads management',
+    'digital marketing agency',
+    'web design company',
+    'local SEO services',
+    'online business growth',
+    'website development near me',
+    'ecommerce website design',
+    'Google Business Profile setup',
+    'Facebook Instagram ads management',
+    'small business web design',
   ],
-  authors: [{ name: 'Abdul Moiz' }],
-  creator: 'Abdul Moiz',
-  publisher: 'Abdul Moiz',
+  authors: [{ name: 'CodeComs' }],
+  creator: 'CodeComs',
+  publisher: 'CodeComs',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true },
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://abdulmoiz.com',
-    siteName: 'Abdul Moiz Portfolio',
-    title: 'Abdul Moiz — Web Designer & Developer',
+    url: 'https://codecomes.vercel.app',
+    siteName: 'CodeComs',
+    title: 'CodeComs — Web Development, E-commerce & Digital Marketing Agency',
     description:
-      'Web Designer, Developer & Digital Growth Strategist. I build high-converting websites, e-commerce stores, and run Meta Ad campaigns for local businesses.',
+      'Professional web development, e-commerce solutions, Google My Business optimization, social media management, and Meta Ads. We help businesses grow online.',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'CodeComs — Digital Agency',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Abdul Moiz — Web Designer & Developer',
+    title: 'CodeComs — Web Development, E-commerce & Digital Marketing',
     description:
-      'Web Designer, Developer & Digital Growth Strategist. I build high-converting websites, e-commerce stores, and run Meta Ad campaigns for local businesses.',
+      'Professional web development, e-commerce solutions, GMB optimization, social media management, and Meta Ads services.',
+    images: ['/og-image.png'],
   },
   icons: { icon: '/favicon.svg' },
   alternates: {
-    canonical: 'https://abdulmoiz.com',
+    canonical: 'https://codecomes.vercel.app',
     languages: {
-      'en': 'https://abdulmoiz.com',
+      'en': 'https://codecomes.vercel.app',
     },
   },
 }
@@ -80,34 +106,83 @@ export default function RootLayout({
 }) {
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Person',
-    name: 'Abdul Moiz',
-    jobTitle: 'Web Designer, Developer & Digital Growth Strategist',
-    url: 'https://abdulmoiz.com',
-    email: 'khanggmoiz@gmail.com',
-    telephone: '+923213258386',
+    '@type': 'Organization',
+    name: 'CodeComs',
+    url: 'https://codecomes.vercel.app',
+    logo: 'https://codecomes.vercel.app/logo.png',
+    description:
+      'CodeComs is a full-service digital agency specializing in web development, e-commerce, Google My Business optimization, social media management, and Meta Ads.',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Lahore',
       addressRegion: 'Punjab',
       addressCountry: 'PK',
     },
+    areaServed: {
+      '@type': 'GeoCircle',
+      geoMidpoint: {
+        '@type': 'GeoCoordinates',
+        latitude: 31.5204,
+        longitude: 74.3587,
+      },
+      geoRadius: '50000',
+    },
     sameAs: [],
-    knowsAbout: [
-      'Web Design',
-      'Web Development',
-      'UI/UX Design',
-      'SEO',
-      'Local SEO',
-      'Digital Marketing',
-      'Meta Ads',
-      'Social Media Management',
-      'E-commerce',
-    ],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer service',
+      availableLanguage: ['English', 'Urdu'],
+    },
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Digital Services',
+      itemListElement: [
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Web Development Services',
+            description: 'Professional website development for businesses, portfolios, and corporate sites.',
+          },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'E-commerce Website Services',
+            description: 'Custom e-commerce website design and development for online stores.',
+          },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Google My Business Optimization',
+            description: 'GMB setup, optimization, and local SEO to dominate Google Maps.',
+          },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Social Media Management',
+            description: 'Complete social media management for Facebook, Instagram, and TikTok.',
+          },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Meta Ads Services',
+            description: 'High-ROI Meta advertising campaigns on Facebook and Instagram.',
+          },
+        },
+      ],
+    },
   }
 
   return (
-    <html lang="en" className={`${kanit.variable} ${playfair.variable}`}>
+    <html lang="en" className={`${kanit.variable} ${sora.variable}`}>
       <head>
         <script
           type="application/ld+json"

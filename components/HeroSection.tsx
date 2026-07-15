@@ -1,12 +1,14 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 import Image from 'next/image'
 import ContactButton from './ContactButton'
 import Magnet from './Magnet'
 
 const navLinks = ['About', 'Services', 'Projects', 'Contact']
+
+const BLUR_PLACEHOLDER = 'data:image/webp;base64,UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA'
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -31,9 +33,9 @@ function Navbar() {
       }`}
     >
       <div className="flex justify-between items-center px-5 md:px-10 py-3 md:py-5 max-w-7xl mx-auto">
-        <a href="#hero" aria-label="Abdul Moiz - Home" className="flex items-center gap-2 group">
-          <span className="text-white font-black text-xl md:text-2xl lg:text-3xl tracking-tight bg-gradient-to-r from-white to-white group-hover:from-[#B600A8] group-hover:to-[#BE4C00] bg-clip-text group-hover:text-transparent transition-all duration-500" style={{ fontFamily: 'var(--font-playfair)' }}>
-            Sasta Developer
+        <a href="#hero" aria-label="CodeComs - Digital Agency Home" className="flex items-center gap-2 group">
+          <span className="text-white font-black text-xl md:text-2xl lg:text-3xl tracking-tight bg-gradient-to-r from-white to-white group-hover:from-[#B600A8] group-hover:to-[#BE4C00] bg-clip-text group-hover:text-transparent transition-all duration-500" style={{ fontFamily: 'var(--font-sora)' }}>
+            CodeComs
           </span>
         </a>
 
@@ -95,6 +97,17 @@ function Navbar() {
 function FloatingParticles() {
   const [mounted, setMounted] = useState(false)
 
+  const particleData = useMemo(() =>
+    Array.from({ length: 8 }).map(() => ({
+      w: Math.random() * 3 + 1,
+      h: Math.random() * 3 + 1,
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      duration: Math.random() * 4 + 3,
+      delay: Math.random() * 3,
+    })),
+  [])
+
   useEffect(() => {
     setMounted(true)
   }, [])
@@ -103,24 +116,24 @@ function FloatingParticles() {
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {Array.from({ length: 8 }).map((_, i) => (
+      {particleData.map((p, i) => (
         <motion.div
           key={i}
           className="absolute rounded-full bg-white/5"
           style={{
-            width: Math.random() * 3 + 1,
-            height: Math.random() * 3 + 1,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
+            width: p.w,
+            height: p.h,
+            left: p.left,
+            top: p.top,
           }}
           animate={{
             y: [0, -20, 0],
             opacity: [0.1, 0.3, 0.1],
           }}
           transition={{
-            duration: Math.random() * 4 + 3,
+            duration: p.duration,
             repeat: Infinity,
-            delay: Math.random() * 3,
+            delay: p.delay,
             ease: 'easeInOut',
           }}
         />
@@ -130,10 +143,19 @@ function FloatingParticles() {
 }
 
 function MouseLight() {
+  const [isDesktop, setIsDesktop] = useState(false)
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
   const springX = useSpring(mouseX, { stiffness: 100, damping: 30 })
   const springY = useSpring(mouseY, { stiffness: 100, damping: 30 })
+
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 640px)')
+    setIsDesktop(mq.matches)
+    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
 
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
@@ -144,13 +166,16 @@ function MouseLight() {
   )
 
   useEffect(() => {
+    if (!isDesktop) return
     window.addEventListener('mousemove', handleMouseMove)
     return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [handleMouseMove])
+  }, [handleMouseMove, isDesktop])
+
+  if (!isDesktop) return null
 
   return (
     <motion.div
-      className="fixed w-[400px] md:w-[600px] h-[400px] md:h-[600px] rounded-full pointer-events-none z-0 hidden sm:block"
+      className="fixed w-[400px] md:w-[600px] h-[400px] md:h-[600px] rounded-full pointer-events-none z-0"
       style={{
         x: springX,
         y: springY,
@@ -173,8 +198,8 @@ export default function HeroSection() {
       <MouseLight />
 
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#7621B0]/[0.04] blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-[#BE4C00]/[0.04] blur-[120px]" />
+        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#7621B0]/[0.04] blur-[80px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-[#BE4C00]/[0.04] blur-[80px]" />
       </div>
 
       <FloatingParticles />
@@ -182,7 +207,8 @@ export default function HeroSection() {
       <div
         className="absolute inset-0 opacity-[0.03] pointer-events-none"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+          backgroundSize: '200px 200px',
         }}
       />
 
@@ -200,7 +226,7 @@ export default function HeroSection() {
               className="inline-flex self-start"
             >
               <span className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm text-[#D7E2EA] text-[10px] sm:text-xs font-medium tracking-wider uppercase">
-                Hello, welcome
+                Web Development & Digital Marketing
               </span>
             </motion.div>
 
@@ -215,10 +241,10 @@ export default function HeroSection() {
               className="hero-heading font-black uppercase tracking-tight leading-[0.95]"
             >
               <span className="block text-[12vw] sm:text-[10vw] md:text-[7vw] lg:text-[5.5vw] xl:text-[5.5rem]">
-                Hi, I&apos;m
+                We Build
               </span>
               <span className="block text-[10vw] sm:text-[8vw] md:text-[6vw] lg:text-[4.5vw] xl:text-[4.5rem]">
-                Abdul <span className="text-[#B600A8]">Moiz</span>
+                Digital <span className="text-[#B600A8]">Success</span>
               </span>
             </motion.h1>
 
@@ -232,9 +258,9 @@ export default function HeroSection() {
               }}
               className="text-[#D7E2EA]/80 font-light leading-relaxed max-w-sm md:max-w-md text-xs sm:text-sm md:text-base"
             >
-              I craft high-converting digital experiences for local businesses
-              — from stunning websites and e-commerce stores to full-stack
-              digital growth strategies.
+              We craft high-converting websites, e-commerce stores, and
+              digital marketing strategies that help local businesses
+              dominate Google and social media.
             </motion.p>
 
             <motion.div
@@ -268,9 +294,9 @@ export default function HeroSection() {
             }}
             className="order-1 lg:order-2 flex items-center justify-center lg:justify-end relative"
           >
-            <div className="absolute w-[70%] h-[70%] rounded-full bg-[#7621B0]/30 blur-[60px] sm:blur-[80px]" />
-            <div className="absolute w-[50%] h-[50%] rounded-full bg-[#B600A8]/20 blur-[40px] sm:blur-[60px]" />
-            <div className="absolute w-[40%] h-[40%] rounded-full bg-[#BE4C00]/15 blur-[30px] sm:blur-[50px]" />
+            <div className="absolute w-[70%] h-[70%] rounded-full bg-[#7621B0]/30 blur-[40px] sm:blur-[60px]" />
+            <div className="absolute w-[50%] h-[50%] rounded-full bg-[#B600A8]/20 blur-[30px] sm:blur-[50px]" />
+            <div className="absolute w-[40%] h-[40%] rounded-full bg-[#BE4C00]/15 blur-[25px] sm:blur-[40px]" />
             <Magnet padding={150} strength={3}>
               <motion.div
                 animate={{ y: [0, -8, 0] }}
@@ -279,10 +305,12 @@ export default function HeroSection() {
               >
                 <Image
                   src="https://shrug-person-78902957.figma.site/_components/v2/d24c01ad3a56fc65e942a1f501eb73db42d7cf9a/Rectangle_40443.81459862.png"
-                  alt="Abdul Moiz - 3D Character illustration"
+                  alt="CodeComs - Web Development and Digital Marketing Agency"
                   width={450}
                   height={500}
                   priority
+                  placeholder="blur"
+                  blurDataURL={BLUR_PLACEHOLDER}
                   sizes="(max-width: 640px) 50vw, (max-width: 768px) 55vw, (max-width: 1024px) 45vw, 85vw"
                   className="w-full h-auto object-contain"
                 />

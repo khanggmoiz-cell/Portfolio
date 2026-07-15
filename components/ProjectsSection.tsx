@@ -1,10 +1,12 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, memo } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import LiveProjectButton from './LiveProjectButton'
 import { Facebook, Instagram, Linkedin, MapPin, Music } from 'lucide-react'
+
+const BLUR_PLACEHOLDER = 'data:image/webp;base64,UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA'
 
 interface Project {
   id: string
@@ -96,7 +98,7 @@ function getYoutubeEmbed(url: string): string {
   return match ? `https://www.youtube.com/embed/${match[1]}` : ''
 }
 
-function ProjectCard({
+const ProjectCard = memo(function ProjectCard({
   project,
   index,
   totalCards,
@@ -186,6 +188,8 @@ function ProjectCard({
                   width={800}
                   height={500}
                   loading="lazy"
+                  placeholder="blur"
+                  blurDataURL={BLUR_PLACEHOLDER}
                   sizes="(max-width: 640px) 100vw, 800px"
                   className="w-full rounded-[16px] sm:rounded-[40px] md:rounded-[60px] object-cover"
                   style={{ height: 'clamp(200px, 50vw, 500px)' }}
@@ -200,6 +204,8 @@ function ProjectCard({
                     width={400}
                     height={400}
                     loading="lazy"
+                    placeholder="blur"
+                    blurDataURL={BLUR_PLACEHOLDER}
                     sizes="(max-width: 640px) 50vw, 400px"
                     className="w-full rounded-[16px] sm:rounded-[40px] md:rounded-[60px] object-cover"
                     style={{ height: 'clamp(120px, 25vw, 400px)' }}
@@ -212,6 +218,8 @@ function ProjectCard({
                     width={400}
                     height={400}
                     loading="lazy"
+                    placeholder="blur"
+                    blurDataURL={BLUR_PLACEHOLDER}
                     sizes="(max-width: 640px) 50vw, 400px"
                     className="w-full rounded-[16px] sm:rounded-[40px] md:rounded-[60px] object-cover"
                     style={{ height: 'clamp(120px, 25vw, 400px)' }}
@@ -227,6 +235,8 @@ function ProjectCard({
                     width={400}
                     height={230}
                     loading="lazy"
+                    placeholder="blur"
+                    blurDataURL={BLUR_PLACEHOLDER}
                     sizes="(max-width: 640px) 40vw, 400px"
                     className="w-full rounded-[16px] sm:rounded-[40px] md:rounded-[60px] object-cover"
                     style={{ height: 'clamp(80px, 16vw, 230px)' }}
@@ -238,6 +248,8 @@ function ProjectCard({
                       width={400}
                       height={340}
                       loading="lazy"
+                      placeholder="blur"
+                      blurDataURL={BLUR_PLACEHOLDER}
                       sizes="(max-width: 640px) 40vw, 400px"
                       className="w-full rounded-[16px] sm:rounded-[40px] md:rounded-[60px] object-cover"
                       style={{ height: 'clamp(100px, 22vw, 340px)' }}
@@ -252,6 +264,8 @@ function ProjectCard({
                       width={600}
                       height={600}
                       loading="lazy"
+                      placeholder="blur"
+                      blurDataURL={BLUR_PLACEHOLDER}
                       sizes="(max-width: 640px) 60vw, 600px"
                       className="w-full h-full rounded-[16px] sm:rounded-[40px] md:rounded-[60px] object-cover"
                     />
@@ -281,7 +295,7 @@ function ProjectCard({
       </motion.div>
     </div>
   )
-}
+})
 
 export default function ProjectsSection() {
   const [projects, setProjects] = useState<Project[]>(fallbackProjects)
