@@ -301,7 +301,7 @@ export default function HeroSection() {
               <motion.div
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                className="relative z-10 w-[75%] sm:w-[80%] md:w-[65%] lg:w-[110%] xl:w-[120%] max-w-[650px] lg:translate-y-[10%]"
+                className="relative z-10 w-[75%] sm:w-[80%] md:w-[65%] lg:w-[90%] xl:w-[95%] max-w-[520px] lg:translate-y-[8%]"
               >
                 <Image
                   src="/3d-character.png"
