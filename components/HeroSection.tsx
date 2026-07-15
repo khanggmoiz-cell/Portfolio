@@ -212,7 +212,7 @@ export default function HeroSection() {
         }}
       />
 
-      <div className="flex-1 flex items-center justify-center px-5 md:px-10 lg:px-16 pt-20 pb-8 lg:pt-[70px]">
+      <div className="flex-1 flex items-center justify-center px-5 md:px-10 lg:px-16 pt-20 pb-8 lg:pt-0">
         <div className="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-center">
           <div className="flex flex-col gap-5 sm:gap-6 lg:gap-7 order-2 lg:order-1">
             <motion.div
@@ -283,30 +283,55 @@ export default function HeroSection() {
               <ContactButton />
             </motion.div>
           </div>
+        </div>
+      </div>
 
-          <div className="order-1 lg:order-2 relative flex items-end justify-center lg:justify-end min-h-[300px] lg:min-h-0">
-            <div className="absolute w-[70%] h-[70%] rounded-full bg-[#7621B0]/30 blur-[40px] sm:blur-[60px]" />
-            <div className="absolute w-[50%] h-[50%] rounded-full bg-[#B600A8]/20 blur-[30px] sm:blur-[50px]" />
-            <div className="absolute w-[40%] h-[40%] rounded-full bg-[#BE4C00]/15 blur-[25px] sm:blur-[40px]" />
-            <Magnet padding={150} strength={3}>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9, y: 30 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-                className="relative z-10"
-                style={{ width: 'clamp(180px, 25vw, 400px)' }}
-              >
-                <Image
-                  src="/3d-character.png"
-                  alt="CodeComs - Web Development and Digital Marketing Agency"
-                  width={450}
-                  height={500}
-                  priority
-                  className="w-full h-auto object-contain object-bottom max-h-[calc(100vh-120px)]"
-                />
-              </motion.div>
-            </Magnet>
-          </div>
+      <div className="hidden lg:block absolute right-[3%] bottom-0 z-10 pointer-events-none">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] rounded-full bg-[#7621B0]/30 blur-[60px]" />
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[50%] h-[50%] rounded-full bg-[#B600A8]/20 blur-[50px]" />
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[40%] h-[40%] rounded-full bg-[#BE4C00]/15 blur-[40px]" />
+        <Magnet padding={150} strength={3}>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+            className="relative z-10 pointer-events-auto"
+            style={{ width: 'clamp(280px, 32vw, 480px)' }}
+          >
+            <Image
+              src="/3d-character.png"
+              alt="CodeComs - Web Development and Digital Marketing Agency"
+              width={450}
+              height={500}
+              priority
+              className="w-full h-auto object-contain object-bottom"
+              style={{ maxHeight: 'calc(100vh - 80px)' }}
+            />
+          </motion.div>
+        </Magnet>
+      </div>
+
+      <div className="block lg:hidden order-1 px-5 pt-24 pb-4 flex justify-center">
+        <div className="relative">
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] rounded-full bg-[#7621B0]/30 blur-[40px]" />
+          <Magnet padding={100} strength={3}>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+              className="relative z-10"
+              style={{ width: 'clamp(200px, 55vw, 300px)' }}
+            >
+              <Image
+                src="/3d-character.png"
+                alt="CodeComs - Web Development and Digital Marketing Agency"
+                width={450}
+                height={500}
+                priority
+                className="w-full h-auto object-contain object-bottom"
+              />
+            </motion.div>
+          </Magnet>
         </div>
       </div>
 
