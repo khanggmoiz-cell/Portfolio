@@ -292,8 +292,22 @@ export default function HeroSection() {
               delay: 0.4,
               ease: [0.25, 0.1, 0.25, 1],
             }}
-            className="order-1 lg:order-2 flex items-center justify-center lg:justify-end relative"
+            className="order-1 lg:order-2 flex flex-col items-center justify-center lg:justify-end relative gap-4 sm:gap-6"
           >
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+              className="w-full lg:w-auto text-center lg:text-right hidden lg:block"
+            >
+              <div className="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-white/5 backdrop-blur-sm border border-white/10">
+                <span className="relative w-2 h-2 rounded-full bg-[#B600A8] animate-pulse" />
+                <span className="text-[#D7E2EA] text-sm sm:text-base font-medium tracking-wide font-sora">
+                  Hello! I Am Abdul Moiz
+                </span>
+              </div>
+            </motion.div>
+
             <div className="absolute w-[70%] h-[70%] rounded-full bg-[#7621B0]/30 blur-[40px] sm:blur-[60px]" />
             <div className="absolute w-[50%] h-[50%] rounded-full bg-[#B600A8]/20 blur-[30px] sm:blur-[50px]" />
             <div className="absolute w-[40%] h-[40%] rounded-full bg-[#BE4C00]/15 blur-[25px] sm:blur-[40px]" />
@@ -301,7 +315,7 @@ export default function HeroSection() {
               <motion.div
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                className="relative z-10 w-[50%] sm:w-[55%] md:w-[45%] lg:w-[85%] xl:w-[90%] max-w-[400px]"
+                className="relative z-10 w-[70%] sm:w-[80%] md:w-[60%] lg:w-[85%] xl:w-[90%] max-w-[380px] sm:max-w-[420px] md:max-w-[480px] lg:max-w-[550px]"
               >
                 <Image
                   src="/3d-character.png"
@@ -311,11 +325,25 @@ export default function HeroSection() {
                   priority
                   placeholder="blur"
                   blurDataURL={BLUR_PLACEHOLDER}
-                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 55vw, (max-width: 1024px) 45vw, 85vw"
+                  sizes="(max-width: 640px) 70vw, (max-width: 768px) 80vw, (max-width: 1024px) 60vw, 85vw"
                   className="w-full h-auto object-contain"
                 />
               </motion.div>
             </Magnet>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+              className="w-full text-center lg:w-auto lg:text-right hidden lg:block"
+            >
+              <div className="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-white/5 backdrop-blur-sm border border-white/10">
+                <span className="relative w-2 h-2 rounded-full bg-[#B600A8] animate-pulse" />
+                <span className="text-[#D7E2EA] text-sm sm:text-base font-medium tracking-wide font-sora">
+                  Hello! I Am Abdul Moiz
+                </span>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </div>
