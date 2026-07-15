@@ -316,20 +316,6 @@ export default function HeroSection() {
                 />
               </motion.div>
             </Magnet>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-              className="w-full text-center"
-            >
-              <div className="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-white/5 backdrop-blur-sm border border-white/10">
-                <span className="relative w-2 h-2 rounded-full bg-[#B600A8] animate-pulse" />
-                <span className="text-[#D7E2EA] text-sm sm:text-base font-medium tracking-wide font-sora">
-                  Hello! I Am Abdul Moiz
-                </span>
-              </div>
-            </motion.div>
           </motion.div>
         </div>
       </div>
