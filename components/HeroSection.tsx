@@ -213,8 +213,8 @@ export default function HeroSection() {
       />
 
       <div className="flex-1 flex items-center justify-center px-5 md:px-10 lg:px-16 pt-20 pb-8 lg:pt-[70px]">
-        <div className="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-stretch">
-          <div className="flex flex-col gap-5 sm:gap-6 lg:gap-7 order-2 lg:order-1 justify-center">
+        <div className="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-center">
+          <div className="flex flex-col gap-5 sm:gap-6 lg:gap-7 order-2 lg:order-1">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -284,24 +284,17 @@ export default function HeroSection() {
             </motion.div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 30 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{
-              duration: 0.8,
-              delay: 0.4,
-              ease: [0.25, 0.1, 0.25, 1],
-            }}
-            className="order-1 lg:order-2 flex flex-col items-center justify-end lg:items-end relative"
-          >
+          <div className="order-1 lg:order-2 relative flex items-end justify-center lg:justify-end min-h-[300px] lg:min-h-0">
             <div className="absolute w-[70%] h-[70%] rounded-full bg-[#7621B0]/30 blur-[40px] sm:blur-[60px]" />
             <div className="absolute w-[50%] h-[50%] rounded-full bg-[#B600A8]/20 blur-[30px] sm:blur-[50px]" />
             <div className="absolute w-[40%] h-[40%] rounded-full bg-[#BE4C00]/15 blur-[25px] sm:blur-[40px]" />
             <Magnet padding={150} strength={3}>
               <motion.div
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                className="relative z-10 w-[60%] sm:w-[55%] md:w-[50%] lg:w-[85%] xl:w-[90%] max-w-[500px]"
+                initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+                className="relative z-10"
+                style={{ width: 'clamp(180px, 25vw, 400px)' }}
               >
                 <Image
                   src="/3d-character.png"
@@ -309,12 +302,11 @@ export default function HeroSection() {
                   width={450}
                   height={500}
                   priority
-                  sizes="(max-width: 640px) 60vw, (max-width: 768px) 55vw, (max-width: 1024px) 50vw, 85vw"
-                  className="w-full h-auto object-contain object-bottom"
+                  className="w-full h-auto object-contain object-bottom max-h-[calc(100vh-120px)]"
                 />
               </motion.div>
             </Magnet>
-          </motion.div>
+          </div>
         </div>
       </div>
 
