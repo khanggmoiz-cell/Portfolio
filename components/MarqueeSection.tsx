@@ -1,7 +1,5 @@
 'use client'
 
-import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
 
 const row1Images = [
@@ -38,24 +36,18 @@ function MarqueRow({
   images: string[]
   direction: 'left' | 'right'
 }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  })
-
-  const x = useTransform(
-    scrollYProgress,
-    [0, 1],
-    direction === 'right' ? ['-10%', '10%'] : ['10%', '-10%']
-  )
-
-  const tripleImages = [...images, ...images, ...images]
+  const doubled = [...images, ...images]
 
   return (
-    <div ref={ref} className="flex gap-3 overflow-hidden">
-      <motion.div className="flex gap-3" style={{ x }}>
-        {tripleImages.map((src, i) => (
+    <div className="flex overflow-hidden">
+      <div
+        className="flex gap-3"
+        style={{
+          animation: `scroll-${direction} 30s linear infinite`,
+          width: 'max-content',
+        }}
+      >
+        {doubled.map((src, i) => (
           <Image
             key={`${src}-${i}`}
             src={src}
@@ -67,7 +59,7 @@ function MarqueRow({
             className="w-[240px] h-[155px] sm:w-[320px] sm:h-[210px] md:w-[420px] md:h-[270px] rounded-xl sm:rounded-2xl object-cover flex-shrink-0"
           />
         ))}
-      </motion.div>
+      </div>
     </div>
   )
 }
@@ -75,9 +67,19 @@ function MarqueRow({
 export default function MarqueeSection() {
   return (
     <section className="bg-[#0C0C0C] pt-24 sm:pt-32 md:pt-40 pb-10 overflow-x-clip">
+      <style>{`
+        @keyframes scroll-left {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        @keyframes scroll-right {
+          0% { transform: translateX(-50%); }
+          100% { transform: translateX(0); }
+        }
+      `}</style>
       <div className="flex flex-col gap-3">
-        <MarqueRow images={row1Images} direction="right" />
-        <MarqueRow images={row2Images} direction="left" />
+        <MarqueRow images={row1Images} direction="left" />
+        <MarqueRow images={row2Images} direction="right" />
       </div>
     </section>
   )
