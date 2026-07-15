@@ -301,7 +301,7 @@ export default function HeroSection() {
               <motion.div
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                className="relative z-10 w-[75%] sm:w-[80%] md:w-[65%] lg:w-[90%] xl:w-[95%] max-w-[520px] lg:translate-y-[8%]"
+                className="relative z-10 w-[95%] sm:w-[95%] md:w-[80%] lg:w-[115%] xl:w-[115%] max-w-[600px] lg:translate-y-[18%]"
               >
                 <Image
                   src="/3d-character.png"
@@ -309,8 +309,8 @@ export default function HeroSection() {
                   width={450}
                   height={500}
                   priority
-                  sizes="(max-width: 640px) 70vw, (max-width: 768px) 80vw, (max-width: 1024px) 60vw, 85vw"
-                  className="w-full h-auto object-contain"
+                  sizes="(max-width: 640px) 95vw, (max-width: 768px) 95vw, (max-width: 1024px) 80vw, 115vw"
+                  className="w-full h-auto object-contain object-bottom"
                 />
               </motion.div>
             </Magnet>
