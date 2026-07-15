@@ -29,6 +29,8 @@ const row2Images = [
   'https://motionsites.ai/assets/hero-celestia-preview-0yO3jXO8.gif',
 ]
 
+const blurDataUrl = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='
+
 function MarqueRow({
   images,
   direction,
@@ -54,9 +56,15 @@ function MarqueRow({
             alt="Portfolio project preview"
             width={420}
             height={270}
-            loading="lazy"
+            loading={i < 2 ? 'eager' : 'lazy'}
+            priority={i < 2}
+            placeholder="blur"
+            blurDataURL={blurDataUrl}
             sizes="(max-width: 640px) 240px, (max-width: 768px) 320px, 420px"
-            className="w-[240px] h-[155px] sm:w-[320px] sm:h-[210px] md:w-[420px] md:h-[270px] rounded-xl sm:rounded-2xl object-cover flex-shrink-0"
+            className="w-[240px] h-[155px] sm:w-[320px] sm:h-[210px] md:w-[420px] md:h-[270px] rounded-xl sm:rounded-2xl object-cover flex-shrink-0 transition-opacity duration-300"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none'
+            }}
           />
         ))}
       </div>
