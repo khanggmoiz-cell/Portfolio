@@ -304,7 +304,7 @@ export default function HeroSection() {
                 className="relative z-10 w-[75%] sm:w-[80%] md:w-[65%] lg:w-[90%] xl:w-[95%] max-w-[520px] lg:translate-y-[8%]"
               >
                 <Image
-                  src="https://fifth-gentle-45902158.figma.site/_components/v2/4de492f6d9cf8244ad5293233e5c6f52407d42fc/4.4457fbce.png"
+                  src="/3d-character.png"
                   alt="CodeComs - Web Development and Digital Marketing Agency"
                   width={450}
                   height={500}
