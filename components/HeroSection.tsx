@@ -294,28 +294,14 @@ export default function HeroSection() {
             }}
             className="order-1 lg:order-2 flex flex-col items-center justify-center lg:justify-end relative gap-4 sm:gap-6"
           >
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-              className="w-full lg:w-auto text-center lg:text-right hidden lg:block"
-            >
-              <div className="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-white/5 backdrop-blur-sm border border-white/10">
-                <span className="relative w-2 h-2 rounded-full bg-[#B600A8] animate-pulse" />
-                <span className="text-[#D7E2EA] text-sm sm:text-base font-medium tracking-wide font-sora">
-                  Hello! I Am Abdul Moiz
-                </span>
-              </div>
-            </motion.div>
-
             <div className="absolute w-[70%] h-[70%] rounded-full bg-[#7621B0]/30 blur-[40px] sm:blur-[60px]" />
             <div className="absolute w-[50%] h-[50%] rounded-full bg-[#B600A8]/20 blur-[30px] sm:blur-[50px]" />
             <div className="absolute w-[40%] h-[40%] rounded-full bg-[#BE4C00]/15 blur-[25px] sm:blur-[40px]" />
-            <Magnet padding={150} strength={3}>
+<Magnet padding={150} strength={3}>
               <motion.div
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                className="relative z-10 w-[70%] sm:w-[80%] md:w-[60%] lg:w-[85%] xl:w-[90%] max-w-[380px] sm:max-w-[420px] md:max-w-[480px] lg:max-w-[550px]"
+                className="relative z-10 w-[85%] sm:w-[90%] md:w-[70%] lg:w-[85%] xl:w-[90%] max-w-[450px]"
               >
                 <Image
                   src="/3d-character.png"
@@ -334,8 +320,8 @@ export default function HeroSection() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-              className="w-full text-center lg:w-auto lg:text-right hidden lg:block"
+              transition={{ duration: 0.6, delay: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+              className="w-full text-center"
             >
               <div className="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-white/5 backdrop-blur-sm border border-white/10">
                 <span className="relative w-2 h-2 rounded-full bg-[#B600A8] animate-pulse" />
