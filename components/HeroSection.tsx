@@ -304,7 +304,7 @@ export default function HeroSection() {
                 className="relative z-10 w-[50%] sm:w-[55%] md:w-[45%] lg:w-[85%] xl:w-[90%] max-w-[400px]"
               >
                 <Image
-                  src="https://shrug-person-78902957.figma.site/_components/v2/d24c01ad3a56fc65e942a1f501eb73db42d7cf9a/Rectangle_40443.81459862.png"
+                  src="/3d-character.png"
                   alt="CodeComs - Web Development and Digital Marketing Agency"
                   width={450}
                   height={500}
