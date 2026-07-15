@@ -2,6 +2,7 @@
 
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
+import Image from 'next/image'
 
 const row1Images = [
   'https://motionsites.ai/assets/hero-space-voyage-preview-eECLH3Yc.gif',
@@ -55,14 +56,14 @@ function MarqueRow({
     <div ref={ref} className="flex gap-3 overflow-hidden">
       <motion.div className="flex gap-3" style={{ x }}>
         {tripleImages.map((src, i) => (
-          <video
+          <Image
             key={`${src}-${i}`}
             src={src}
-            autoPlay
-            loop
-            muted
-            playsInline
-            aria-label="Portfolio project preview"
+            alt="Portfolio project preview"
+            width={420}
+            height={270}
+            loading="lazy"
+            sizes="(max-width: 640px) 240px, (max-width: 768px) 320px, 420px"
             className="w-[240px] h-[155px] sm:w-[320px] sm:h-[210px] md:w-[420px] md:h-[270px] rounded-xl sm:rounded-2xl object-cover flex-shrink-0"
           />
         ))}
