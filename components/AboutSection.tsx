@@ -93,13 +93,13 @@ export default function AboutSection() {
       <div className="flex flex-col items-center gap-8 sm:gap-10 md:gap-16 z-10 w-full">
         <FadeIn delay={0} y={40}>
           <h2 className="hero-heading font-black uppercase leading-none tracking-tight text-center text-[12vw] sm:text-[10vw] md:text-[8vw] lg:text-[6rem]">
-            About CodeComs
+            About codecomes
           </h2>
         </FadeIn>
 
         <div className="flex flex-col items-center gap-10 sm:gap-12 md:gap-24">
           <AnimatedText
-            text="CodeComs is a full-service digital agency dedicated to helping local businesses thrive online. We specialize in building high-converting websites, custom e-commerce stores, and data-driven digital marketing strategies. Our team combines web development expertise with advanced SEO, Google My Business optimization, social media management, and Meta Ads to deliver measurable results. From restaurants and mechanics to entrepreneurs and retail stores, we provide end-to-end digital transformation — including website design, local search optimization, Facebook and Instagram advertising, and Google Maps ranking strategies. Our approach is simple: we build, we optimize, and we grow your business so you get noticed, booked, and paid."
+            text="codecomes is a full-service digital agency dedicated to helping local businesses thrive online. We specialize in building high-converting websites, custom e-commerce stores, and data-driven digital marketing strategies. Our team combines web development expertise with advanced SEO, Google My Business optimization, social media management, and Meta Ads to deliver measurable results. From restaurants and mechanics to entrepreneurs and retail stores, we provide end-to-end digital transformation — including website design, local search optimization, Facebook and Instagram advertising, and Google Maps ranking strategies. Our approach is simple: we build, we optimize, and we grow your business so you get noticed, booked, and paid."
             className="text-[#D7E2EA] font-medium text-center leading-relaxed max-w-[90vw] sm:max-w-[600px] md:max-w-[700px] text-sm sm:text-base md:text-lg"
           />
           <FadeIn delay={0.3}>

@@ -25,11 +25,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://codecomes.vercel.app'),
   title: {
-    default: 'CodeComs — Web Development, E-commerce & Digital Marketing Agency',
-    template: '%s | CodeComs',
+    default: 'codecomes — Web Development, E-commerce & Digital Marketing Agency',
+    template: '%s | codecomes',
   },
   description:
-    'CodeComs is a full-service digital agency offering professional web development, e-commerce website design, Google My Business optimization, social media management, and Meta Ads services. We help local businesses dominate online.',
+    'codecomes is a full-service digital agency offering professional web development, e-commerce website design, Google My Business optimization, social media management, and Meta Ads services. We help local businesses dominate online.',
   keywords: [
     'web development services',
     'e-commerce website development',
@@ -47,9 +47,9 @@ export const metadata: Metadata = {
     'Facebook Instagram ads management',
     'small business web design',
   ],
-  authors: [{ name: 'CodeComs' }],
-  creator: 'CodeComs',
-  publisher: 'CodeComs',
+  authors: [{ name: 'codecomes' }],
+  creator: 'codecomes',
+  publisher: 'codecomes',
   formatDetection: {
     email: false,
     address: false,
@@ -70,8 +70,8 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://codecomes.vercel.app',
-    siteName: 'CodeComs',
-    title: 'CodeComs — Web Development, E-commerce & Digital Marketing Agency',
+    siteName: 'codecomes',
+    title: 'codecomes — Web Development, E-commerce & Digital Marketing Agency',
     description:
       'Professional web development, e-commerce solutions, Google My Business optimization, social media management, and Meta Ads. We help businesses grow online.',
     images: [
@@ -79,13 +79,13 @@ export const metadata: Metadata = {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'CodeComs — Digital Agency',
+        alt: 'codecomes — Digital Agency',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'CodeComs — Web Development, E-commerce & Digital Marketing',
+    title: 'codecomes — Web Development, E-commerce & Digital Marketing',
     description:
       'Professional web development, e-commerce solutions, GMB optimization, social media management, and Meta Ads services.',
     images: ['/og-image.png'],
@@ -107,11 +107,11 @@ export default function RootLayout({
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'CodeComs',
+    name: 'codecomes',
     url: 'https://codecomes.vercel.app',
     logo: 'https://codecomes.vercel.app/logo.png',
     description:
-      'CodeComs is a full-service digital agency specializing in web development, e-commerce, Google My Business optimization, social media management, and Meta Ads.',
+      'codecomes is a full-service digital agency specializing in web development, e-commerce, Google My Business optimization, social media management, and Meta Ads.',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Lahore',

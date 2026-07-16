@@ -33,9 +33,9 @@ function Navbar() {
       }`}
     >
       <div className="flex justify-between items-center px-5 md:px-10 py-3 md:py-5 max-w-7xl mx-auto">
-        <a href="#hero" aria-label="CodeComs - Digital Agency Home" className="flex items-center gap-2 group">
+        <a href="#hero" aria-label="codecomes - Digital Agency Home" className="flex items-center gap-2 group">
           <span className="text-white font-black text-xl md:text-2xl lg:text-3xl tracking-tight bg-gradient-to-r from-white to-white group-hover:from-[#B600A8] group-hover:to-[#BE4C00] bg-clip-text group-hover:text-transparent transition-all duration-500" style={{ fontFamily: 'var(--font-sora)' }}>
-            CodeComs
+            codecomes
           </span>
         </a>
 
@@ -300,7 +300,7 @@ export default function HeroSection() {
           >
             <Image
               src="/3d-character.png"
-              alt="CodeComs - Web Development and Digital Marketing Agency"
+              alt="codecomes - Web Development and Digital Marketing Agency"
               width={450}
               height={500}
               priority
@@ -324,7 +324,7 @@ export default function HeroSection() {
             >
               <Image
                 src="/3d-character.png"
-                alt="CodeComs - Web Development and Digital Marketing Agency"
+                alt="codecomes - Web Development and Digital Marketing Agency"
                 width={450}
                 height={500}
                 priority
