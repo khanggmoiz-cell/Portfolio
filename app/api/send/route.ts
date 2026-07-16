@@ -3,9 +3,9 @@ import nodemailer from 'nodemailer'
 
 export async function POST(request: Request) {
   const body = await request.json()
-  const { name, email, phone, company, service, message } = body
+  const { name, email, phone, company, services, message } = body
 
-  if (!name || !email || !phone || !service || !message) {
+  if (!name || !email || !phone || !Array.isArray(services) || services.length === 0 || !message) {
     return NextResponse.json(
       { success: false, error: 'All required fields must be filled' },
       { status: 400 },
@@ -63,8 +63,8 @@ export async function POST(request: Request) {
                 </tr>
                 <tr>
                   <td style="padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.06);">
-                    <span style="color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:2px;">Service Required</span><br/>
-                    <span style="display:inline-block;background:linear-gradient(135deg,#7621B0,#BE4C00);color:#ffffff;font-size:13px;font-weight:600;padding:6px 16px;border-radius:20px;margin-top:4px;">${service}</span>
+                    <span style="color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:2px;">Services Required</span><br/>
+                    ${services.map((s: string) => `<span style="display:inline-block;background:linear-gradient(135deg,#7621B0,#BE4C00);color:#ffffff;font-size:13px;font-weight:600;padding:6px 16px;border-radius:20px;margin-top:4px;margin-right:6px;margin-bottom:6px;">${s}</span>`).join('')}
                   </td>
                 </tr>
                 <tr>
@@ -92,7 +92,7 @@ export async function POST(request: Request) {
       from: `"Portfolio Contact" <${process.env.GMAIL_USER}>`,
       to: process.env.GMAIL_USER,
       replyTo: email,
-      subject: `New Inquiry: ${service} from ${name}`,
+      subject: `New Inquiry: ${services.join(', ')} from ${name}`,
       html,
     })
     return NextResponse.json({ success: true })
