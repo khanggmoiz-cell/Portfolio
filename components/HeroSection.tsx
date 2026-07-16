@@ -320,7 +320,7 @@ export default function HeroSection() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
               className="relative z-10"
-              style={{ width: 'clamp(200px, 55vw, 300px)' }}
+              style={{ width: 'clamp(250px, 75vw, 380px)' }}
             >
               <Image
                 src="/3d-character.png"
