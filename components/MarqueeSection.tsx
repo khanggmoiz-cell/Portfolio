@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 
 const row1Images = [
@@ -29,7 +30,32 @@ const row2Images = [
   '/images/marquee/celestia.png',
 ]
 
-const blurDataUrl = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='
+function BlurImage({ src, alt }: { src: string; alt: string }) {
+  const [loaded, setLoaded] = useState(false)
+
+  return (
+    <div className="relative overflow-hidden rounded-xl sm:rounded-2xl flex-shrink-0">
+      <Image
+        src={src}
+        alt={alt}
+        width={420}
+        height={270}
+        loading="lazy"
+        sizes="(max-width: 640px) 240px, (max-width: 768px) 320px, 420px"
+        className="w-[240px] h-[155px] sm:w-[320px] sm:h-[210px] md:w-[420px] md:h-[270px] object-cover transition-all duration-500"
+        style={{
+          filter: loaded ? 'blur(0px)' : 'blur(12px)',
+          opacity: loaded ? 1 : 0.6,
+          transform: loaded ? 'scale(1)' : 'scale(1.05)',
+        }}
+        onLoad={() => setLoaded(true)}
+      />
+      {!loaded && (
+        <div className="absolute inset-0 bg-white/5 animate-pulse rounded-xl sm:rounded-2xl" />
+      )}
+    </div>
+  )
+}
 
 function MarqueRow({
   images,
@@ -50,19 +76,7 @@ function MarqueRow({
         }}
       >
         {doubled.map((src, i) => (
-          <Image
-            key={`${src}-${i}`}
-            src={src}
-            alt="Portfolio project preview"
-            width={420}
-            height={270}
-            loading={i < 2 ? 'eager' : 'lazy'}
-            priority={i < 2}
-            placeholder="blur"
-            blurDataURL={blurDataUrl}
-            sizes="(max-width: 640px) 240px, (max-width: 768px) 320px, 420px"
-            className="w-[240px] h-[155px] sm:w-[320px] sm:h-[210px] md:w-[420px] md:h-[270px] rounded-xl sm:rounded-2xl object-cover flex-shrink-0"
-          />
+          <BlurImage key={`${src}-${i}`} src={src} alt="Portfolio project preview" />
         ))}
       </div>
     </div>

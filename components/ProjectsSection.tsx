@@ -3,10 +3,9 @@
 import { useRef, useState, useEffect, memo } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
+import BlurImage from './BlurImage'
 import LiveProjectButton from './LiveProjectButton'
 import { Facebook, Instagram, Linkedin, MapPin, Music } from 'lucide-react'
-
-const BLUR_PLACEHOLDER = 'data:image/webp;base64,UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA'
 
 interface Project {
   id: string
@@ -182,14 +181,12 @@ const ProjectCard = memo(function ProjectCard({
           <div className="flex gap-2 sm:gap-4">
             {project.imageCount === 1 ? (
               <div className="w-full">
-                <Image
+                <BlurImage
                   src={project.images[0] || ''}
                   alt={`${project.title} preview`}
                   width={800}
                   height={500}
                   loading="lazy"
-                  placeholder="blur"
-                  blurDataURL={BLUR_PLACEHOLDER}
                   sizes="(max-width: 640px) 100vw, 800px"
                   className="w-full rounded-[16px] sm:rounded-[40px] md:rounded-[60px] object-cover"
                   style={{ height: 'clamp(200px, 50vw, 500px)' }}
@@ -198,28 +195,24 @@ const ProjectCard = memo(function ProjectCard({
             ) : project.imageCount === 2 ? (
               <div className="flex gap-2 sm:gap-4 w-full">
                 <div className="w-1/2">
-                  <Image
+                  <BlurImage
                     src={project.images[0] || ''}
                     alt={`${project.title} screenshot 1`}
                     width={400}
                     height={400}
                     loading="lazy"
-                    placeholder="blur"
-                    blurDataURL={BLUR_PLACEHOLDER}
                     sizes="(max-width: 640px) 50vw, 400px"
                     className="w-full rounded-[16px] sm:rounded-[40px] md:rounded-[60px] object-cover"
                     style={{ height: 'clamp(120px, 25vw, 400px)' }}
                   />
                 </div>
                 <div className="w-1/2">
-                  <Image
+                  <BlurImage
                     src={project.images[1] || ''}
                     alt={`${project.title} screenshot 2`}
                     width={400}
                     height={400}
                     loading="lazy"
-                    placeholder="blur"
-                    blurDataURL={BLUR_PLACEHOLDER}
                     sizes="(max-width: 640px) 50vw, 400px"
                     className="w-full rounded-[16px] sm:rounded-[40px] md:rounded-[60px] object-cover"
                     style={{ height: 'clamp(120px, 25vw, 400px)' }}
@@ -229,27 +222,23 @@ const ProjectCard = memo(function ProjectCard({
             ) : (
               <div className="flex gap-2 sm:gap-4">
                 <div className="flex flex-col gap-2 sm:gap-4 w-[40%]">
-                  <Image
+                  <BlurImage
                     src={project.images[0] || ''}
                     alt={`${project.title} screenshot 1`}
                     width={400}
                     height={230}
                     loading="lazy"
-                    placeholder="blur"
-                    blurDataURL={BLUR_PLACEHOLDER}
                     sizes="(max-width: 640px) 40vw, 400px"
                     className="w-full rounded-[16px] sm:rounded-[40px] md:rounded-[60px] object-cover"
                     style={{ height: 'clamp(80px, 16vw, 230px)' }}
                   />
                   {project.images[1] && (
-                    <Image
+                    <BlurImage
                       src={project.images[1]}
                       alt={`${project.title} screenshot 2`}
                       width={400}
                       height={340}
                       loading="lazy"
-                      placeholder="blur"
-                      blurDataURL={BLUR_PLACEHOLDER}
                       sizes="(max-width: 640px) 40vw, 400px"
                       className="w-full rounded-[16px] sm:rounded-[40px] md:rounded-[60px] object-cover"
                       style={{ height: 'clamp(100px, 22vw, 340px)' }}
@@ -258,14 +247,12 @@ const ProjectCard = memo(function ProjectCard({
                 </div>
                 <div className="w-[60%]">
                   {project.images[2] && (
-                    <Image
+                    <BlurImage
                       src={project.images[2]}
                       alt={`${project.title} full preview`}
                       width={600}
                       height={600}
                       loading="lazy"
-                      placeholder="blur"
-                      blurDataURL={BLUR_PLACEHOLDER}
                       sizes="(max-width: 640px) 60vw, 600px"
                       className="w-full h-full rounded-[16px] sm:rounded-[40px] md:rounded-[60px] object-cover"
                     />
