@@ -43,7 +43,7 @@ function BlurImage({ src, alt }: { src: string; alt: string }) {
         className={`object-cover transition-all duration-700 ease-out ${
           loaded ? 'blur-0 opacity-100 scale-100' : 'blur-xl opacity-50 scale-105'
         }`}
-        onLoadingComplete={() => setLoaded(true)}
+        onLoad={() => setLoaded(true)}
       />
     </div>
   )

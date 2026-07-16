@@ -12,7 +12,7 @@ export default function BlurImage(props: ImageProps) {
       className={`${props.className || ''} transition-all duration-700 ease-out ${
         loaded ? 'blur-0 opacity-100' : 'blur-xl opacity-50'
       }`}
-      onLoadingComplete={() => setLoaded(true)}
+      onLoad={() => setLoaded(true)}
     />
   )
 }
