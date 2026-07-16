@@ -27,7 +27,7 @@ interface FormData {
   email: string
   phone: string
   company: string
-  service: string
+  services: string[]
   message: string
 }
 
@@ -35,7 +35,7 @@ interface FormErrors {
   name?: string
   email?: string
   phone?: string
-  service?: string
+  services?: string[]
   message?: string
 }
 
@@ -80,7 +80,7 @@ export default function ContactSection() {
     email: '',
     phone: '',
     company: '',
-    service: '',
+    services: [] as string[],
     message: '',
   })
   const [errors, setErrors] = useState<FormErrors>({})
@@ -97,7 +97,7 @@ export default function ContactSection() {
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
       e.email = 'Invalid email'
     if (!formData.phone.trim()) e.phone = 'Phone is required'
-    if (!formData.service) e.service = 'Select a service'
+    if (formData.services.length === 0) e.services = 'Select at least one service'
     if (!formData.message.trim()) e.message = 'Message is required'
     return e
   }
@@ -126,7 +126,7 @@ export default function ContactSection() {
           email: '',
           phone: '',
           company: '',
-          service: '',
+          services: [] as string[],
           message: '',
         })
       } else {
@@ -149,6 +149,16 @@ export default function ContactSection() {
     setFormData((p) => ({ ...p, [field]: value }))
     if (errors[field as keyof FormErrors])
       setErrors((p) => ({ ...p, [field]: undefined }))
+  }
+
+  const toggleService = (service: string) => {
+    setFormData((p) => ({
+      ...p,
+      services: p.services.includes(service)
+        ? p.services.filter((s) => s !== service)
+        : [...p.services, service],
+    }))
+    if (errors.services) setErrors((p) => ({ ...p, services: undefined }))
   }
 
   const inputClass =
@@ -361,36 +371,28 @@ export default function ContactSection() {
               </div>
 
               <div>
-                <label htmlFor="contact-service" className={labelClass}>
-                  Service Required *
+                <label className={labelClass}>
+                  Services Required *
                 </label>
-                <select
-                  id="contact-service"
-                  value={formData.service}
-                  onChange={(e) =>
-                    handleChange('service', e.target.value)
-                  }
-                  className={`${inputClass} appearance-none cursor-pointer`}
-                  aria-required="true"
-                  aria-invalid={!!errors.service}
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23D7E2EA' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E")`,
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'right 1rem center',
-                  }}
-                >
-                  <option value="" disabled className="bg-[#1a1a1a]">
-                    Select a service
-                  </option>
+                <div className="flex flex-wrap gap-2" role="group" aria-required="true">
                   {services.map((s) => (
-                    <option key={s} value={s} className="bg-[#1a1a1a]">
+                    <button
+                      key={s}
+                      type="button"
+                      onClick={() => toggleService(s)}
+                      className={`px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 border cursor-pointer ${
+                        formData.services.includes(s)
+                          ? 'bg-[#B600A8]/20 border-[#B600A8]/60 text-[#D7E2EA]'
+                          : 'bg-white/5 border-white/10 text-[#D7E2EA]/60 hover:border-white/20 hover:text-[#D7E2EA]/80'
+                      }`}
+                    >
                       {s}
-                    </option>
+                    </button>
                   ))}
-                </select>
-                {errors.service && (
+                </div>
+                {errors.services && (
                   <span className={errorClass} role="alert">
-                    {errors.service}
+                    {errors.services}
                   </span>
                 )}
               </div>
